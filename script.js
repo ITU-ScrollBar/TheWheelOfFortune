@@ -1,7 +1,5 @@
-// -----wheel-spin-js------
-
 var og = [
-  { label: '1x Carrot Juice' },
+  { label: '1x Carrot Juice'},
   { label: '1x Cup of water'},
   { label: '1x Vodka Redbull'},
   { label: '2x Tuborg Gold'},
@@ -15,87 +13,31 @@ var og = [
   { label: '2x Corona'},
 ];
 
-var mixers = [
-  { label: '1x Coca Cola'},
-  { label: '1x Sparkling water'},
-  { label: '1x Tonic Water'},
-  { label: '1x Ginger Beer'},
-  { label: '1x Pineapple Juice'},
-  { label: '1x Orange Juice'},
-  { label: '1x Red Soda'},
-  { label: '1x Coca Cola'},
-  { label: '1x Tonic Water'},
-  { label: '1x Ginger Beer'},
-  { label: '1x Pineapple Juice'},
-  { label: '1x Orange Juice'},
-];
+var fileUpdate = document.getElementById('wheelInput');
 
-var shots = [
-  { label: '2x Tequila'},
-  { label: '1x Jägermeister'},
-  { label: '1x Sambuca'},
-  { label: '1x Pure Apple'},
-  { label: '1x Pure Liquorice'},
-  { label: '1x Råstof Caramel'},
-  { label: '1x Råstof Rhubarb'},
-  { label: '1x Rum'},
-  { label: '1x Gin'},
-  { label: '2x Fernet'},
-  { label: '2x Mintuu'},
-  { label: '1x Fireball'},
-]
-
-var sirup = [
-  { label: '1x Mango'},
-  { label: '1x Passionfruit'},
-  { label: '1x Lime'},
-  { label: '1x Sugar'},
-  { label: '1x Grenadine'},
-  { label: '2x Mango'},
-  { label: '2x Passionfruit'},
-  { label: '2x Lime'},
-  { label: '2x Sugar'},
-  { label: '2x Grenadine'},
-  { label: '3x Mango'},
-  { label: '3x Passionfruit'},
-]
+fileUpdate.addEventListener('change', function (e) {
+  const file = e.target.files[0];
+  if (file) {
+    const reader = new FileReader();
+    reader.onload = function (e) {
+      const tmp = e.target.result.split('\n');
+      data = tmp.map((item) => {
+        return { label: item.trim() };
+      }).filter((item) => item.label.length > 0);
+      updateDataInWheel();
+    };
+    reader.readAsText(file);
+  }
+});
 
 // Init data filled in the wheel
 var data = og;
-
-// Different options for the wheel
-var options = {
-  "og": og,
-  "mixers": mixers,
-  "shots": shots,
-  "sirup": sirup
-};
-
-var menuItem = document.getElementById('wheelOptions');
-
-// Fill menu with options
-for (var option in options) {
-  var opt = document.createElement('option');
-  opt.value = option;
-  opt.innerHTML = option;
-  menuItem.appendChild(opt);
-}
-
-// Update wheel based option chosen
-menuItem.addEventListener('change', updateWheel);
-function updateWheel(event) {
-  var option = event.target.value;
-  data = options[option];
-
-  updateDataInWheel();
-}
 
 var arcs;
 
 function updateDataInWheel() {
   vis.selectAll('.slice').remove();
   arcs = vis.selectAll('g.slice').data(pie).enter().append('g').attr('class', 'slice');
-
 
   arcs.append('path').attr('fill', function (d, i) {
     return color(i);
@@ -183,7 +125,7 @@ $(document).on('keypress', function (e) {
   }
   // listen on h key and hide and unhide
   if (e.which == 104) {
-    menuItem.hidden = !menuItem.hidden;
+    fileUpdate.hidden = !fileUpdate.hidden;
   }
 });
 
@@ -234,7 +176,7 @@ function spin(charge) {
         spinning = false;
       }, 1000 * 5);
       clearInterval(interval);
-      oldrotation = rotation;
+      oldrotation = (oldrotation + rotation) % 360;
 
       //populate question
 
