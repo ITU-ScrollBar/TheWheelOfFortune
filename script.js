@@ -1,63 +1,63 @@
 // -----wheel-spin-js------
 
 var og = [
-  { label: '1x Carrot Juice'       , value: 1, xp: '2' },
-  { label: '1x Cup of water'              , value: 1, xp: '4', },
-  { label: '1x Vodka Redbull'      , value: 1, xp: '1', },
-  { label: '2x Tuborg Gold'    , value: 1, xp: '4', },
-  { label: '1x ScrollBar Punch'   , value: 1, xp: '5' },
-  { label: '4x Pure Shots'         , value: 1, xp: '3' },
-  { label: '2x Somersby'     , value: 1, xp: '9' },
-  { label: '1x Pitcher'   , value: 1, xp: '10' },
-  { label: '5x Tequilla shots'  , value: 1, xp: '11' },
-  { label: '1x Draught Beer'  , value: 1, xp: '10' },
-  { label: '3x Jägerbombs'      , value: 1, xp: '12' },
-  { label: '2x Corona' , value: 1, xp: '13' },
+  { label: '1x Carrot Juice' },
+  { label: '1x Cup of water'},
+  { label: '1x Vodka Redbull'},
+  { label: '2x Tuborg Gold'},
+  { label: '1x ScrollBar Punch'},
+  { label: '4x Pure Shots'},
+  { label: '2x Somersby'},
+  { label: '1x Pitcher'},
+  { label: '5x Tequilla shots'},
+  { label: '1x Draught Beer'},
+  { label: '3x Jägerbombs'},
+  { label: '2x Corona'},
 ];
 
 var mixers = [
-  { label: '1x Coca Cola', value: 1, xp: '2' },
-  { label: '1x Sparkling water', value: 1, xp: '4', },
-  { label: '1x Tonic Water', value: 1, xp: '1', },
-  { label: '1x Ginger Beer', value: 1, xp: '4', },
-  { label: '1x Pineapple Juice', value: 1, xp: '5' },
-  { label: '1x Orange Juice', value: 1, xp: '3' },
-  { label: '1x Red Soda', value: 1, xp: '9' },
-  { label: '1x Coca Cola', value: 1, xp: '10' },
-  { label: '1x Tonic Water', value: 1, xp: '10' },
-  { label: '1x Ginger Beer', value: 1, xp: '11' },
-  { label: '1x Pineapple Juice', value: 1, xp: '12' },
-  { label: '1x Orange Juice', value: 1, xp: '13' },
+  { label: '1x Coca Cola'},
+  { label: '1x Sparkling water'},
+  { label: '1x Tonic Water'},
+  { label: '1x Ginger Beer'},
+  { label: '1x Pineapple Juice'},
+  { label: '1x Orange Juice'},
+  { label: '1x Red Soda'},
+  { label: '1x Coca Cola'},
+  { label: '1x Tonic Water'},
+  { label: '1x Ginger Beer'},
+  { label: '1x Pineapple Juice'},
+  { label: '1x Orange Juice'},
 ];
 
 var shots = [
-  { label: '2x Tequila', value: 1, xp: '2' },
-  { label: '1x Jägermeister', value: 1, xp: '4', },
-  { label: '1x Sambuca', value: 1, xp: '1', },
-  { label: '1x Pure Apple', value: 1, xp: '5' },
-  { label: '1x Pure Liquorice', value: 1, xp: '5' },
-  { label: '1x Råstof Caramel', value: 1, xp: '5' },
-  { label: '1x Råstof Rhubarb', value: 1, xp: '5' },
-  { label: '1x Rum', value: 1, xp: '3' },
-  { label: '1x Gin', value: 1, xp: '9' },
-  { label: '2x Fernet', value: 1, xp: '10' },
-  { label: '2x Mintuu', value: 1, xp: '12' },
-  { label: '1x Fireball', value: 1, xp: '13' },
+  { label: '2x Tequila'},
+  { label: '1x Jägermeister'},
+  { label: '1x Sambuca'},
+  { label: '1x Pure Apple'},
+  { label: '1x Pure Liquorice'},
+  { label: '1x Råstof Caramel'},
+  { label: '1x Råstof Rhubarb'},
+  { label: '1x Rum'},
+  { label: '1x Gin'},
+  { label: '2x Fernet'},
+  { label: '2x Mintuu'},
+  { label: '1x Fireball'},
 ]
 
 var sirup = [
-  { label: '1x Mango', value: 1, xp: '2' },
-  { label: '1x Passionfruit', value: 1, xp: '2' },
-  { label: '1x Lime', value: 1, xp: '2' },
-  { label: '1x Sugar', value: 1, xp: '2' },
-  { label: '1x Grenadine', value: 1, xp: '2' },
-  { label: '2x Mango', value: 1, xp: '2' },
-  { label: '2x Passionfruit', value: 1, xp: '2' },
-  { label: '2x Lime', value: 1, xp: '2' },
-  { label: '2x Sugar', value: 1, xp: '2' },
-  { label: '2x Grenadine', value: 1, xp: '2' },
-  { label: '3x Mango', value: 1, xp: '2' },
-  { label: '3x Passionfruit', value: 1, xp: '2' },
+  { label: '1x Mango'},
+  { label: '1x Passionfruit'},
+  { label: '1x Lime'},
+  { label: '1x Sugar'},
+  { label: '1x Grenadine'},
+  { label: '2x Mango'},
+  { label: '2x Passionfruit'},
+  { label: '2x Lime'},
+  { label: '2x Sugar'},
+  { label: '2x Grenadine'},
+  { label: '3x Mango'},
+  { label: '3x Passionfruit'},
 ]
 
 // Init data filled in the wheel
@@ -87,8 +87,15 @@ function updateWheel(event) {
   var option = event.target.value;
   data = options[option];
 
+  updateDataInWheel();
+}
+
+var arcs;
+
+function updateDataInWheel() {
   vis.selectAll('.slice').remove();
-  var arcs = vis.selectAll('g.slice').data(pie).enter().append('g').attr('class', 'slice');
+  arcs = vis.selectAll('g.slice').data(pie).enter().append('g').attr('class', 'slice');
+
 
   arcs.append('path').attr('fill', function (d, i) {
     return color(i);
@@ -116,7 +123,6 @@ function updateWheel(event) {
     .text(function (d, i) {
       return data[i].label;
     });
-
 }
 
 var padding = { top: 0, right: 0, bottom: 0, left: 0 },
@@ -148,45 +154,10 @@ var pie = d3.layout.pie().value(function (d) {
 });
 // declare an arc generator function
 var arc = d3.svg.arc().outerRadius(r);
-// select paths, use arc generator to draw
-var arcs = vis.selectAll('g.slice').data(pie).enter().append('g').attr('class', 'slice');
 
-arcs
-  .append('path')
-  .attr('fill', function (d, i) {
-    return color(i);
-  })
-  .attr('d', function (d) {
-    return arc(d);
-  });
-// add the text
-arcs
-  .append('text')
-  .attr('transform', function (d) {
-    d.innerRadius = 0;
-    d.outerRadius = r;
-    d.angle = (d.startAngle + d.endAngle) / 2;
-    return 'rotate(' + (((d.angle * 180) / Math.PI - 90) + 3) + ')translate(' + (d.outerRadius - 20) + ')';
-  })
-  .attr('font-size', '16')
-  .attr('stroke', 'black')
-  .attr('margin-top', '20px')
-  .attr('font-align', 'center')
-  .attr('stroke-width', 0.6)
-  .attr('fill', function(d,i){
+// Initialize the wheel data
+updateDataInWheel();
 
-	if( i % 2 == 1 ){
-		return "black"	
-	}
-return "white"
-})
-  .attr('text-anchor', 'end')
-  .text(function (d, i) {
-    if (data[i].href) {
-      return;
-    }
-    return data[i].label;
-  });
 arcs
   .append('image')
   .attr('width', '60')
@@ -237,14 +208,6 @@ function spin(charge) {
 
   picked = (data.length - Math.round(((rotation + 180 + ps / 2) % 360) / ps)) % data.length;
   console.log(data[picked].label + " " + new Date().toISOString());
-
-  //picked = picked >= data.length ? (picked % data.length) : picked;
-  //      if(oldpick.indexOf(picked) !== -1){
-  //          d3.select(this).call(spin);
-  //          return;
-  //      } else {
-  //          oldpick.push(picked);
-  //     }
 
   d3.timer( function(){
     if($('#wheel').attr('transform')){
@@ -329,33 +292,131 @@ function celebrate() {
   })();
 }
 
-if (true) {
-  tsParticles.load('tsparticles', {
-    autoPlay: true,
-    background: {
-      color: { value: '#000' },
-      image: '',
-      position: '50% 50%',
-      repeat: 'no-repeat',
-      size: 'cover',
-      opacity: 1,
+tsParticles.load('tsparticles', {
+  autoPlay: true,
+  background: {
+    color: { value: '#000' },
+    image: '',
+    position: '50% 50%',
+    repeat: 'no-repeat',
+    size: 'cover',
+    opacity: 1,
+  },
+  backgroundMask: {
+    composite: 'destination-out',
+    cover: { color: { value: '#fff' }, opacity: 1 },
+    enable: false,
+  },
+  fullScreen: { enable: true, zIndex: 1 },
+  detectRetina: true,
+  fpsLimit: 30,
+  interactivity: {
+    detectsOn: 'canvas',
+    events: {
+      resize: true,
     },
-    backgroundMask: {
-      composite: 'destination-out',
-      cover: { color: { value: '#fff' }, opacity: 1 },
-      enable: false,
-    },
-    fullScreen: { enable: true, zIndex: 1 },
-    detectRetina: true,
-    fpsLimit: 30,
-    interactivity: {
-      detectsOn: 'canvas',
-      events: {
-        resize: true,
+  },
+  manualParticles: [],
+  particles: {
+    color: {
+      value: '#ffffff',
+      animation: {
+        h: { count: 0, enable: false, offset: 0, speed: 1, sync: true },
+        s: { count: 0, enable: false, offset: 0, speed: 1, sync: true },
+        l: { count: 0, enable: false, offset: 0, speed: 1, sync: true },
       },
     },
-    manualParticles: [],
-    particles: {
+    groups: {},
+    life: {
+      count: 0,
+      delay: {
+        random: { enable: false, minimumValue: 0 },
+        value: 0,
+        sync: false,
+      },
+      duration: {
+        random: { enable: false, minimumValue: 0.0001 },
+        value: 0,
+        sync: false,
+      },
+    },
+    move: {
+      angle: { offset: 0, value: 90 },
+      decay: 1,
+      distance: {},
+      direction: 'none',
+      drift: 0,
+      enable: true,
+      random: false,
+      size: false,
+      speed: 0.5,
+      straight: false,
+      trail: { enable: false, length: 10, fillColor: { value: '#000000' } },
+      vibrate: false,
+      warp: false,
+    },
+    number: {
+      density: { enable: true, area: 800, factor: 1000 },
+      limit: 0,
+      value: 80,
+    },
+    opacity: {
+      random: { enable: false, minimumValue: 0.1 },
+      value: { min: 0.1, max: 0.5 },
+      animation: {
+        count: 0,
+        enable: true,
+        speed: 1,
+        sync: false,
+        destroy: 'none',
+        minimumValue: 0.1,
+        startValue: 'random',
+      },
+    },
+    reduceDuplicates: false,
+    shape: {
+      options: {
+        character: [
+          {
+            fill: true,
+            font: 'Font Awesome 5 Free',
+            style: '',
+            value: ['', '', '', ''],
+            weight: '900',
+          },
+        ],
+        polygon: { sides: 5 },
+        star: { sides: 5 },
+        image: {
+          height: 100,
+          replaceColor: true,
+          src: 'https://particles.js.org/images/github.svg',
+          width: 100,
+        },
+        images: {
+          height: 100,
+          replaceColor: true,
+          src: 'https://particles.js.org/images/github.svg',
+          width: 100,
+        },
+      },
+      type: 'char',
+    },
+    size: {
+      random: { enable: false, minimumValue: 1 },
+      value: 16,
+      animation: {
+        count: 0,
+        enable: true,
+        speed: 10,
+        sync: false,
+        destroy: 'none',
+        minimumValue: 10,
+        startValue: 'random',
+      },
+    },
+    stroke: {
+      width: 1,
       color: {
         value: '#ffffff',
         animation: {
@@ -364,110 +425,10 @@ if (true) {
           l: { count: 0, enable: false, offset: 0, speed: 1, sync: true },
         },
       },
-      groups: {},
-      life: {
-        count: 0,
-        delay: {
-          random: { enable: false, minimumValue: 0 },
-          value: 0,
-          sync: false,
-        },
-        duration: {
-          random: { enable: false, minimumValue: 0.0001 },
-          value: 0,
-          sync: false,
-        },
-      },
-      move: {
-        angle: { offset: 0, value: 90 },
-        decay: 1,
-        distance: {},
-        direction: 'none',
-        drift: 0,
-        enable: true,
-        random: false,
-        size: false,
-        speed: 0.5,
-        straight: false,
-        trail: { enable: false, length: 10, fillColor: { value: '#000000' } },
-        vibrate: false,
-        warp: false,
-      },
-      number: {
-        density: { enable: true, area: 800, factor: 1000 },
-        limit: 0,
-        value: 80,
-      },
-      opacity: {
-        random: { enable: false, minimumValue: 0.1 },
-        value: { min: 0.1, max: 0.5 },
-        animation: {
-          count: 0,
-          enable: true,
-          speed: 1,
-          sync: false,
-          destroy: 'none',
-          minimumValue: 0.1,
-          startValue: 'random',
-        },
-      },
-      reduceDuplicates: false,
-      shape: {
-        options: {
-          character: [
-            {
-              fill: true,
-              font: 'Font Awesome 5 Free',
-              style: '',
-              value: ['', '', '', ''],
-              weight: '900',
-            },
-          ],
-          polygon: { sides: 5 },
-          star: { sides: 5 },
-          image: {
-            height: 100,
-            replaceColor: true,
-            src: 'https://particles.js.org/images/github.svg',
-            width: 100,
-          },
-          images: {
-            height: 100,
-            replaceColor: true,
-            src: 'https://particles.js.org/images/github.svg',
-            width: 100,
-          },
-        },
-        type: 'char',
-      },
-      size: {
-        random: { enable: false, minimumValue: 1 },
-        value: 16,
-        animation: {
-          count: 0,
-          enable: true,
-          speed: 10,
-          sync: false,
-          destroy: 'none',
-          minimumValue: 10,
-          startValue: 'random',
-        },
-      },
-      stroke: {
-        width: 1,
-        color: {
-          value: '#ffffff',
-          animation: {
-            h: { count: 0, enable: false, offset: 0, speed: 1, sync: true },
-            s: { count: 0, enable: false, offset: 0, speed: 1, sync: true },
-            l: { count: 0, enable: false, offset: 0, speed: 1, sync: true },
-          },
-        },
-      },
     },
-    pauseOnBlur: false,
-    pauseOnOutsideViewport: false,
-    responsive: [],
-    themes: [],
-  });
-}
+  },
+  pauseOnBlur: false,
+  pauseOnOutsideViewport: false,
+  responsive: [],
+  themes: [],
+});
