@@ -124,7 +124,7 @@ $(document).on('keypress', function (e) {
     spin(2);
   }
   // listen on h key and hide and unhide
-  if (e.which == 104) {
+  if (e.which == 'h'.charCodeAt(0)) {
     fileUpdate.hidden = !fileUpdate.hidden;
   }
 });
