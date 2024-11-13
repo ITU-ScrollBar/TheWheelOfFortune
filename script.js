@@ -21,9 +21,17 @@ fileUpdate.addEventListener('change', function (e) {
     const reader = new FileReader();
     reader.onload = function (e) {
       const tmp = e.target.result.split('\n');
-      data = tmp.map((item) => {
+      const lst = tmp.map((item) => {
         return { label: item.trim() };
       }).filter((item) => item.label.length > 0);
+
+      if (lst.length != 12) {
+        alert('Please provide 12 items');
+        return;
+      }
+
+      data = lst;
+
       updateDataInWheel();
     };
     reader.readAsText(file);
