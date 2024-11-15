@@ -1,4 +1,79 @@
-// -----wheel-spin-js------
+var og = [
+  { label: '1x Carrot Juice'},
+  { label: '1x Cup of water'},
+  { label: '1x Vodka Redbull'},
+  { label: '2x Tuborg Gold'},
+  { label: '1x ScrollBar Punch'},
+  { label: '4x Pure Shots'},
+  { label: '2x Somersby'},
+  { label: '1x Pitcher'},
+  { label: '5x Tequilla shots'},
+  { label: '1x Draught Beer'},
+  { label: '3x Jägerbombs'},
+  { label: '2x Corona'},
+];
+
+var fileUpdate = document.getElementById('wheelInput');
+
+fileUpdate.addEventListener('change', function (e) {
+  const file = e.target.files[0];
+  if (file) {
+    const reader = new FileReader();
+    reader.onload = function (e) {
+      const tmp = e.target.result.split('\n');
+      const lst = tmp.map((item) => {
+        return { label: item.trim() };
+      }).filter((item) => item.label.length > 0);
+
+      if (lst.length != 12) {
+        alert('Please provide 12 items');
+        return;
+      }
+
+      data = lst;
+
+      updateDataInWheel();
+    };
+    reader.readAsText(file);
+  }
+});
+
+// Init data filled in the wheel
+var data = og;
+
+var arcs;
+
+function updateDataInWheel() {
+  vis.selectAll('.slice').remove();
+  arcs = vis.selectAll('g.slice').data(pie).enter().append('g').attr('class', 'slice');
+
+  arcs.append('path').attr('fill', function (d, i) {
+    return color(i);
+  })
+  .attr('d', function (d) {
+    return arc(d);
+  });
+
+  arcs
+    .append('text')
+    .attr('transform', function (d) {
+      d.innerRadius = 0;
+      d.outerRadius = r;
+      d.angle = (d.startAngle + d.endAngle) / 2;
+      return 'rotate(' + (((d.angle * 180) / Math.PI - 90) + 3) + ')translate(' + (d.outerRadius - 20) + ')';
+    })
+    .attr('font-size', '16')
+    .attr('stroke', 'black')
+    .attr('font-align', 'center')
+    .attr('stroke-width', 0.6)
+    .attr('fill', function(d,i){
+      return (i % 2 == 1) ? "black" : "white";
+    })
+    .attr('text-anchor', 'end')
+    .text(function (d, i) {
+      return data[i].label;
+    });
+}
 
 var padding = { top: 0, right: 0, bottom: 0, left: 0 },
   w = 400 - padding.left - padding.right,
@@ -10,20 +85,6 @@ var padding = { top: 0, right: 0, bottom: 0, left: 0 },
   oldpick = [],
   color = d3.scale.category20();
 
-var data = [
-  { label: '1x Carrot Juice'       , value: 1, xp: '2' },
-  { label: '1x Cup of water'              , value: 1, xp: '4', },
-  { label: '1x Vodka Redbull'      , value: 1, xp: '1', },
-  { label: '2x Tuborg Gold'    , value: 1, xp: '4', },
-  { label: '1x ScrollBar Punch'   , value: 1, xp: '5' },
-  { label: '4x Pure Shots'         , value: 1, xp: '3' },
-  { label: '2x Somersby'     , value: 1, xp: '9' },
-  { label: '1x Pitcher'   , value: 1, xp: '10' },
-  { label: '5x Tequilla shots'  , value: 1, xp: '11' },
-  { label: '1x Draught Beer'  , value: 1, xp: '10' },
-  { label: '3x Jägerbombs'      , value: 1, xp: '12' },
-  { label: '2x Corona' , value: 1, xp: '13' },
-];
 var svg = d3
   .select('#spinwheel')
   .append('svg')
@@ -43,45 +104,10 @@ var pie = d3.layout.pie().value(function (d) {
 });
 // declare an arc generator function
 var arc = d3.svg.arc().outerRadius(r);
-// select paths, use arc generator to draw
-var arcs = vis.selectAll('g.slice').data(pie).enter().append('g').attr('class', 'slice');
 
-arcs
-  .append('path')
-  .attr('fill', function (d, i) {
-    return color(i);
-  })
-  .attr('d', function (d) {
-    return arc(d);
-  });
-// add the text
-arcs
-  .append('text')
-  .attr('transform', function (d) {
-    d.innerRadius = 0;
-    d.outerRadius = r;
-    d.angle = (d.startAngle + d.endAngle) / 2;
-    return 'rotate(' + (((d.angle * 180) / Math.PI - 90) + 3) + ')translate(' + (d.outerRadius - 20) + ')';
-  })
-  .attr('font-size', '16')
-  .attr('stroke', 'black')
-  .attr('margin-top', '20px')
-  .attr('font-align', 'center')
-  .attr('stroke-width', 0.6)
-  .attr('fill', function(d,i){
+// Initialize the wheel data
+updateDataInWheel();
 
-	if( i % 2 == 1 ){
-		return "black"	
-	}
-return "white"
-})
-  .attr('text-anchor', 'end')
-  .text(function (d, i) {
-    if (data[i].href) {
-      return;
-    }
-    return data[i].label;
-  });
 arcs
   .append('image')
   .attr('width', '60')
@@ -104,6 +130,10 @@ $('#spin').on('click', () => spin(5));
 $(document).on('keypress', function (e) {
   if (e.which == 13) {
     spin(2);
+  }
+  // listen on h key and hide and unhide
+  if (e.which == 'h'.charCodeAt(0)) {
+    fileUpdate.hidden = !fileUpdate.hidden;
   }
 });
 
@@ -128,14 +158,6 @@ function spin(charge) {
 
   picked = (data.length - Math.round(((rotation + 180 + ps / 2) % 360) / ps)) % data.length;
   console.log(data[picked].label + " " + new Date().toISOString());
-
-  //picked = picked >= data.length ? (picked % data.length) : picked;
-  //      if(oldpick.indexOf(picked) !== -1){
-  //          d3.select(this).call(spin);
-  //          return;
-  //      } else {
-  //          oldpick.push(picked);
-  //     }
 
   d3.timer( function(){
     if($('#wheel').attr('transform')){
@@ -162,7 +184,7 @@ function spin(charge) {
         spinning = false;
       }, 1000 * 5);
       clearInterval(interval);
-      oldrotation = rotation;
+      oldrotation = (oldrotation + rotation) % 360;
 
       //populate question
 
@@ -220,33 +242,131 @@ function celebrate() {
   })();
 }
 
-if (true) {
-  tsParticles.load('tsparticles', {
-    autoPlay: true,
-    background: {
-      color: { value: '#000' },
-      image: '',
-      position: '50% 50%',
-      repeat: 'no-repeat',
-      size: 'cover',
-      opacity: 1,
+tsParticles.load('tsparticles', {
+  autoPlay: true,
+  background: {
+    color: { value: '#000' },
+    image: '',
+    position: '50% 50%',
+    repeat: 'no-repeat',
+    size: 'cover',
+    opacity: 1,
+  },
+  backgroundMask: {
+    composite: 'destination-out',
+    cover: { color: { value: '#fff' }, opacity: 1 },
+    enable: false,
+  },
+  fullScreen: { enable: true, zIndex: 1 },
+  detectRetina: true,
+  fpsLimit: 30,
+  interactivity: {
+    detectsOn: 'canvas',
+    events: {
+      resize: true,
     },
-    backgroundMask: {
-      composite: 'destination-out',
-      cover: { color: { value: '#fff' }, opacity: 1 },
-      enable: false,
-    },
-    fullScreen: { enable: true, zIndex: 1 },
-    detectRetina: true,
-    fpsLimit: 30,
-    interactivity: {
-      detectsOn: 'canvas',
-      events: {
-        resize: true,
+  },
+  manualParticles: [],
+  particles: {
+    color: {
+      value: '#ffffff',
+      animation: {
+        h: { count: 0, enable: false, offset: 0, speed: 1, sync: true },
+        s: { count: 0, enable: false, offset: 0, speed: 1, sync: true },
+        l: { count: 0, enable: false, offset: 0, speed: 1, sync: true },
       },
     },
-    manualParticles: [],
-    particles: {
+    groups: {},
+    life: {
+      count: 0,
+      delay: {
+        random: { enable: false, minimumValue: 0 },
+        value: 0,
+        sync: false,
+      },
+      duration: {
+        random: { enable: false, minimumValue: 0.0001 },
+        value: 0,
+        sync: false,
+      },
+    },
+    move: {
+      angle: { offset: 0, value: 90 },
+      decay: 1,
+      distance: {},
+      direction: 'none',
+      drift: 0,
+      enable: true,
+      random: false,
+      size: false,
+      speed: 0.5,
+      straight: false,
+      trail: { enable: false, length: 10, fillColor: { value: '#000000' } },
+      vibrate: false,
+      warp: false,
+    },
+    number: {
+      density: { enable: true, area: 800, factor: 1000 },
+      limit: 0,
+      value: 80,
+    },
+    opacity: {
+      random: { enable: false, minimumValue: 0.1 },
+      value: { min: 0.1, max: 0.5 },
+      animation: {
+        count: 0,
+        enable: true,
+        speed: 1,
+        sync: false,
+        destroy: 'none',
+        minimumValue: 0.1,
+        startValue: 'random',
+      },
+    },
+    reduceDuplicates: false,
+    shape: {
+      options: {
+        character: [
+          {
+            fill: true,
+            font: 'Font Awesome 5 Free',
+            style: '',
+            value: ['', '', '', ''],
+            weight: '900',
+          },
+        ],
+        polygon: { sides: 5 },
+        star: { sides: 5 },
+        image: {
+          height: 100,
+          replaceColor: true,
+          src: 'https://particles.js.org/images/github.svg',
+          width: 100,
+        },
+        images: {
+          height: 100,
+          replaceColor: true,
+          src: 'https://particles.js.org/images/github.svg',
+          width: 100,
+        },
+      },
+      type: 'char',
+    },
+    size: {
+      random: { enable: false, minimumValue: 1 },
+      value: 16,
+      animation: {
+        count: 0,
+        enable: true,
+        speed: 10,
+        sync: false,
+        destroy: 'none',
+        minimumValue: 10,
+        startValue: 'random',
+      },
+    },
+    stroke: {
+      width: 1,
       color: {
         value: '#ffffff',
         animation: {
@@ -255,110 +375,10 @@ if (true) {
           l: { count: 0, enable: false, offset: 0, speed: 1, sync: true },
         },
       },
-      groups: {},
-      life: {
-        count: 0,
-        delay: {
-          random: { enable: false, minimumValue: 0 },
-          value: 0,
-          sync: false,
-        },
-        duration: {
-          random: { enable: false, minimumValue: 0.0001 },
-          value: 0,
-          sync: false,
-        },
-      },
-      move: {
-        angle: { offset: 0, value: 90 },
-        decay: 1,
-        distance: {},
-        direction: 'none',
-        drift: 0,
-        enable: true,
-        random: false,
-        size: false,
-        speed: 0.5,
-        straight: false,
-        trail: { enable: false, length: 10, fillColor: { value: '#000000' } },
-        vibrate: false,
-        warp: false,
-      },
-      number: {
-        density: { enable: true, area: 800, factor: 1000 },
-        limit: 0,
-        value: 80,
-      },
-      opacity: {
-        random: { enable: false, minimumValue: 0.1 },
-        value: { min: 0.1, max: 0.5 },
-        animation: {
-          count: 0,
-          enable: true,
-          speed: 1,
-          sync: false,
-          destroy: 'none',
-          minimumValue: 0.1,
-          startValue: 'random',
-        },
-      },
-      reduceDuplicates: false,
-      shape: {
-        options: {
-          character: [
-            {
-              fill: true,
-              font: 'Font Awesome 5 Free',
-              style: '',
-              value: ['', '', '', ''],
-              weight: '900',
-            },
-          ],
-          polygon: { sides: 5 },
-          star: { sides: 5 },
-          image: {
-            height: 100,
-            replaceColor: true,
-            src: 'https://particles.js.org/images/github.svg',
-            width: 100,
-          },
-          images: {
-            height: 100,
-            replaceColor: true,
-            src: 'https://particles.js.org/images/github.svg',
-            width: 100,
-          },
-        },
-        type: 'char',
-      },
-      size: {
-        random: { enable: false, minimumValue: 1 },
-        value: 16,
-        animation: {
-          count: 0,
-          enable: true,
-          speed: 10,
-          sync: false,
-          destroy: 'none',
-          minimumValue: 10,
-          startValue: 'random',
-        },
-      },
-      stroke: {
-        width: 1,
-        color: {
-          value: '#ffffff',
-          animation: {
-            h: { count: 0, enable: false, offset: 0, speed: 1, sync: true },
-            s: { count: 0, enable: false, offset: 0, speed: 1, sync: true },
-            l: { count: 0, enable: false, offset: 0, speed: 1, sync: true },
-          },
-        },
-      },
     },
-    pauseOnBlur: false,
-    pauseOnOutsideViewport: false,
-    responsive: [],
-    themes: [],
-  });
-}
+  },
+  pauseOnBlur: false,
+  pauseOnOutsideViewport: false,
+  responsive: [],
+  themes: [],
+});
