@@ -1,16 +1,16 @@
 var og = [
-  { label: '1x Carrot Juice'},
-  { label: '1x Cup of water'},
-  { label: '1x Vodka Redbull'},
-  { label: '2x Tuborg Gold'},
-  { label: '1x ScrollBar Punch'},
-  { label: '4x Pure Shots'},
-  { label: '2x Somersby'},
-  { label: '1x Pitcher'},
-  { label: '5x Tequilla shots'},
-  { label: '1x Draught Beer'},
-  { label: '3x Jägerbombs'},
-  { label: '2x Corona'},
+  { label: '1x CARROT JUICE'},
+  { label: '1x 2-SHOT DRINK'},
+  { label: '1x PITCHER OF BEER'},
+  { label: '1x REDBULL'},
+  { label: '2x 1-SHOT DRINK'},
+  { label: '3x JÄGERBOMB'},
+  { label: 'SHOT WITH TENDER'},
+  { label: '2x DRAUGHT BEER'},
+  { label: '1x 10-SHOT TRAY'},
+  { label: '1x GLASS OF WATER'},
+  { label: '2x FERNET SHOT'},
+  { label: 'SPIN AGAIN!'},
 ];
 
 var fileUpdate = document.getElementById('wheelInput');
@@ -54,6 +54,8 @@ function updateDataInWheel() {
     return arc(d);
   });
 
+
+  // change the color of the text in the wheel
   arcs
     .append('text')
     .attr('transform', function (d) {
@@ -62,12 +64,12 @@ function updateDataInWheel() {
       d.angle = (d.startAngle + d.endAngle) / 2;
       return 'rotate(' + (((d.angle * 180) / Math.PI - 90) + 3) + ')translate(' + (d.outerRadius - 20) + ')';
     })
-    .attr('font-size', '16')
+    .attr('font-size', '14')
     .attr('stroke', 'black')
     .attr('font-align', 'center')
-    .attr('stroke-width', 0.6)
+    .attr('stroke-width', 0,5)
     .attr('fill', function(d,i){
-      return (i % 2 == 1) ? "black" : "white";
+      return (i % 2 == 1) ? "white" : "black";
     })
     .attr('text-anchor', 'end')
     .text(function (d, i) {
@@ -189,7 +191,7 @@ function spin(charge) {
       //populate question
 
       celebrate();
-      document.getElementById('winMessage').innerHTML = '<h1>You won ' + data[picked].label + '</h1>';
+      document.getElementById('winMessage').innerHTML = '<h1>YOU WON ' + data[picked].label + '</h1>';
       document.getElementById('winMessage').style = 'display: block; margin-Top: 100px';
       setTimeout(() => {
         document.getElementById('winMessage').style = 'display: none';
@@ -200,7 +202,7 @@ function spin(charge) {
     });
 }
 //draw spin circle
-container.append('circle').attr('cx', 0).attr('cy', 0).attr('r', 10).style({ fill: '#ffffff' });
+container.append('circle').attr('cx', 0).attr('cy', 0).attr('r', 15).style({ fill: '#FFBF47' });
 
 function rotTween(to) {
   //console.log("oldrotation: " + oldrotation);
