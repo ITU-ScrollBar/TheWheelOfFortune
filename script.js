@@ -68,9 +68,7 @@ function updateDataInWheel() {
     .attr('stroke', 'black')
     .attr('font-align', 'center')
     .attr('stroke-width', 0,5)
-    .attr('fill', function(d,i){
-      return (i % 2 == 1) ? "white" : "black";
-    })
+    .attr('fill', 'black')
     .attr('text-anchor', 'end')
     .text(function (d, i) {
       return data[i].label;
@@ -202,7 +200,7 @@ function spin(charge) {
     });
 }
 //draw spin circle
-container.append('circle').attr('cx', 0).attr('cy', 0).attr('r', 15).style({ fill: '#FFBF47' });
+container.append('circle').attr('cx', 0).attr('cy', 0).attr('r', 15).style({ fill: '#795A2D' });
 
 function rotTween(to) {
   //console.log("oldrotation: " + oldrotation);
@@ -333,7 +331,7 @@ tsParticles.load('tsparticles', {
             fill: true,
             font: 'Font Awesome 5 Free',
             style: '',
-            value: ['', '', '', ''],
+            value: ['', '', '', ''],
             weight: '900',
           },
         ],
