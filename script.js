@@ -199,7 +199,7 @@ function spin(charge) {
       //container.on("click", spin);
     });
 }
-//draw spin circle
+//draw spin circle - Change the last hex code to change the color in the middle of the wheel
 container.append('circle').attr('cx', 0).attr('cy', 0).attr('r', 15).style({ fill: '#795A2D' });
 
 function rotTween(to) {
