@@ -1,14 +1,14 @@
 var og = [
-  { label: '1x CARROT JUICE'},
-  { label: '1x 2-SHOT DRINK'},
+  { label: '2x MINTTU SHOTS '},
+  { label: '6x JÄGER SHOTS'},
   { label: '1x PITCHER OF BEER'},
-  { label: '1x REDBULL'},
-  { label: '2x 1-SHOT DRINK'},
+  { label: '1x JÄGER GOLD CHAIN'},
+  { label: '3x FLÜGEL SHOTS'},
   { label: '3x JÄGERBOMB'},
   { label: 'SHOT WITH TENDER'},
   { label: '2x DRAUGHT BEER'},
   { label: '1x 10-SHOT TRAY'},
-  { label: '1x GLASS OF WATER'},
+  { label: '6x JÄGER SHOTGLASS'},
   { label: '2x FERNET SHOT'},
   { label: 'SPIN AGAIN!'},
 ];
@@ -202,7 +202,7 @@ function spin(charge) {
     });
 }
 //draw spin circle
-container.append('circle').attr('cx', 0).attr('cy', 0).attr('r', 15).style({ fill: '#FFBF47' });
+container.append('circle').attr('cx', 0).attr('cy', 0).attr('r', 15).style({ fill: '#FF3333' });
 
 function rotTween(to) {
   //console.log("oldrotation: " + oldrotation);
@@ -333,7 +333,8 @@ tsParticles.load('tsparticles', {
             fill: true,
             font: 'Font Awesome 5 Free',
             style: '',
-            value: ['', '', '', ''],
+            // value: ['', '', '', ''], these are the icons. Copy glyph from https://fontawesome.com/search
+            value: ['', '', '', '', ''],
             weight: '900',
           },
         ],
