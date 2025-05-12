@@ -10,7 +10,7 @@ var og = [
   { label: '1x 10-SHOT TRAY'},
   { label: '1x GLASS OF WATER'},
   { label: '2x FERNET SHOT'},
-  { label: 'SPIN AGAIN!'},
+  { label: 'APEROL HAT!'},
 ];
 
 var fileUpdate = document.getElementById('wheelInput');
@@ -202,7 +202,7 @@ function spin(charge) {
     });
 }
 //draw spin circle
-container.append('circle').attr('cx', 0).attr('cy', 0).attr('r', 15).style({ fill: '#FFBF47' });
+container.append('circle').attr('cx', 0).attr('cy', 0).attr('r', 15).style({ fill: '#FE905D' });
 
 function rotTween(to) {
   //console.log("oldrotation: " + oldrotation);

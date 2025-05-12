@@ -130,13 +130,13 @@ body {
 
 /* This is half of the fields */ 
 .wheel-spin-box .chartholder .slice path {
-  fill: #2C2C2C; 
+  fill: #fe6f2c; 
 
 }
 
 /* This is the other half of the fields */ 
 .wheel-spin-box .chartholder .slice:nth-child(2n + 1) path {
-  fill: #F7E94F ; 
+  fill: #ffffff ; 
 }
 .wheel-spin-arrow {
   position: relative;
