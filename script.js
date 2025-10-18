@@ -198,32 +198,27 @@ function loadThemes() {
   const embedded = {
     OG: {
       name: "OG",
-      border: "#222",
       sliceFill: "#f7eb39",
       sliceAltFill: "#0f0f0f",
       icons: ["\uf561", "\uf72f", "\uf0fc", "\uf79f"],
     },
     "After Ski": {
       name: "After Ski",
-      border: "#2D1E99",
       sliceFill: "#3F8EFC",
       sliceAltFill: "#87BFFF",
       icons: ["", "", "", "", ""],
     },
     Aperol: {
       name: "Aperol",
-      border: "#222",
-      sliceFill: "#fe6f2c",
-      sliceAltFill: "#0f0f0f",
-      /* additional themeable variables for Aperol */
-      centerFill: "#FF3333",
-      dotFill: "#FFFFFF",
-      dotActiveFill: "#FF8A33",
-      dotActiveAltFill: "#2D1E99",
-      spinButtonBg: "#FF3333",
-      spinButtonColor: "#FFFFFF",
+      sliceFill: "#fff",
+      sliceAltFill: "#fe6f2c",
       icons: ["\uf561", "\uf72f", "\uf0fc", "\uf79f"],
     },
+    Shrek: {
+      "name": "Shrek",
+      "sliceFill": "#CBD421",
+      "sliceAltFill": "#93A300",
+    }
   };
 
   // Use embedded themes only (no external fetch) — edit this object in script.js to add themes
