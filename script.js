@@ -481,12 +481,10 @@ function updateDataInWheel() {
         ")"
       );
     })
-    .attr('font-size', '14')
-    .attr('stroke', 'black')
-    .attr('font-align', 'center')
-    .attr('stroke-width', 0,5)
-    .attr('fill', function(d,i){
-      return (i % 2 == 1) ? "white" : "black";
+    .attr("font-size", "16")
+    .attr("font-align", "center")
+    .attr("fill", function (d, i) {
+      return i % 2 == 1 ? "black" : "white";
     })
     .attr("text-anchor", "end")
     .text(function (d, i) {
