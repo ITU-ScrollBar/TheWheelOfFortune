@@ -1,16 +1,16 @@
 var og = [
-  { label: "1x Carrot Juice" },
-  { label: "1x Cup of water" },
-  { label: "1x Vodka Redbull" },
-  { label: "2x Tuborg Gold" },
-  { label: "1x ScrollBar Punch" },
-  { label: "4x Pure Shots" },
-  { label: "2x Somersby" },
-  { label: "1x Pitcher" },
-  { label: "5x Tequilla shots" },
-  { label: "1x Draught Beer" },
-  { label: "3x Jägerbombs" },
-  { label: "2x Corona" },
+  { label: '1x CARROT JUICE'},
+  { label: '1x 2-SHOT DRINK'},
+  { label: '1x PITCHER OF BEER'},
+  { label: '1x REDBULL'},
+  { label: '2x 1-SHOT DRINK'},
+  { label: '3x JÄGERBOMB'},
+  { label: 'SHOT WITH TENDER'},
+  { label: '2x DRAUGHT BEER'},
+  { label: '1x 10-SHOT TRAY'},
+  { label: '1x GLASS OF WATER'},
+  { label: '2x FERNET SHOT'},
+  { label: 'SPIN AGAIN!'},
 ];
 
 /* ====================
@@ -465,6 +465,8 @@ function updateDataInWheel() {
       return arc(d);
     });
 
+
+  // change the color of the text in the wheel
   arcs
     .append("text")
     .attr("transform", function (d) {
@@ -479,10 +481,12 @@ function updateDataInWheel() {
         ")"
       );
     })
-    .attr("font-size", "16")
-    .attr("font-align", "center")
-    .attr("fill", function (d, i) {
-      return i % 2 == 1 ? "black" : "white";
+    .attr('font-size', '14')
+    .attr('stroke', 'black')
+    .attr('font-align', 'center')
+    .attr('stroke-width', 0,5)
+    .attr('fill', function(d,i){
+      return (i % 2 == 1) ? "white" : "black";
     })
     .attr("text-anchor", "end")
     .text(function (d, i) {
