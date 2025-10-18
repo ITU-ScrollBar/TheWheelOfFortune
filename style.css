@@ -244,12 +244,12 @@ body {
 
 #winMessage {
   height: 100px;
-  position: absolute; 
+  position: absolute;
   text-align: center;
   width: 100%;
   top: 20%;
   z-index: 99999;
-  color: #FE4A49;
+  color: white;
   -webkit-text-stroke-width: 1px;
   -webkit-text-stroke-color: black;
 }
@@ -278,19 +278,19 @@ body {
   width: 10px;
   height: 10px;
   border-radius: 50%;
-  background: #FFBF47;
+  background: #fff;
   position: absolute;
   z-index: 1;
 }
 .wheeldotsround .wheeldots:nth-child(2n + 1) {
-  background: #FFBF47;
+  background: #fff;
 }
 
 .wheeldotsround .wheeldots.active-dots {
-  background: #ffffff;
+  background: #ff8400;
 }
 .wheeldotsround .wheeldots.active-dots:nth-child(2n + 1) {
-  background: #ffffff;
+  background: #2660a4;
 }
 
 .wheeldotsround .wheeldots:nth-child(1) {
@@ -360,7 +360,7 @@ body {
   background-color: #000;
   font-size: 14px;
   font-weight: 600;
-  color: #08edbc;
+  color: #fff;
   border: none;
   padding: 14px 35px;
   border-radius: 15px;
@@ -375,7 +375,7 @@ body {
 }
 
 .winIndicator {
-  fill: #ffffff;
+  fill: #fff;
 }
 
 #wheelInput {

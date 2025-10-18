@@ -1,16 +1,16 @@
 var og = [
-  { label: '1x CARROT JUICE'},
-  { label: '1x 2-SHOT DRINK'},
-  { label: '1x PITCHER OF BEER'},
-  { label: '1x REDBULL'},
-  { label: '2x 1-SHOT DRINK'},
-  { label: '3x JÄGERBOMB'},
-  { label: 'SHOT WITH TENDER'},
-  { label: '2x DRAUGHT BEER'},
-  { label: '1x 10-SHOT TRAY'},
-  { label: '1x GLASS OF WATER'},
-  { label: '2x FERNET SHOT'},
-  { label: 'SPIN AGAIN!'},
+  { label: "1x CARROT JUICE" },
+  { label: "1x 2-SHOT DRINK" },
+  { label: "1x PITCHER OF BEER" },
+  { label: "1x REDBULL" },
+  { label: "2x 1-SHOT DRINK" },
+  { label: "3x JÄGERBOMB" },
+  { label: "SHOT WITH TENDER" },
+  { label: "2x DRAUGHT BEER" },
+  { label: "1x 10-SHOT TRAY" },
+  { label: "1x GLASS OF WATER" },
+  { label: "2x FERNET SHOT" },
+  { label: "SPIN AGAIN!" },
 ];
 
 /* ====================
@@ -146,7 +146,7 @@ function applyTheme(theme) {
 function loadParticles(icons) {
   const defaultIcons =
     icons && icons.length ? icons : ["\uf561", "\uf72f", "\uf0fc", "\uf79f"];
-  const charValues = defaultIcons.map((v) => v);
+  const charValues = defaultIcons;
 
   // destroy existing instances to avoid duplicates
   try {
@@ -465,7 +465,6 @@ function updateDataInWheel() {
       return arc(d);
     });
 
-
   // change the color of the text in the wheel
   arcs
     .append("text")
@@ -481,7 +480,7 @@ function updateDataInWheel() {
         ")"
       );
     })
-    .attr("font-size", "16")
+    .attr("font-size", "14")
     .attr("font-align", "center")
     .attr("fill", function (d, i) {
       return i % 2 == 1 ? "black" : "white";
