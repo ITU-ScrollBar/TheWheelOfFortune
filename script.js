@@ -17,26 +17,82 @@ var og = [
 
 var fileUpdate = document.getElementById("wheelInput");
 var visibleThemeSelector = document.getElementById("themeSelectorVisible");
+// will hold computed defaults captured at load time so themes can revert unspecified values
+var themeDefaults = {};
 
 // Apply a theme by setting CSS variables on :root
 function applyTheme(theme) {
   if (!theme) return;
   const root = document.documentElement;
-  if (theme.border) root.style.setProperty("--wheel-border", theme.border);
-  if (theme.sliceFill) root.style.setProperty("--slice-fill", theme.sliceFill);
-  if (theme.sliceAltFill)
-    root.style.setProperty("--slice-alt-fill", theme.sliceAltFill);
-  // if theme provides icons, reload particles with those icons
-  if (theme.icons && theme.icons.length) {
-    loadParticles(theme.icons);
-  }
-  // optional extra variables
-  if (theme.centerFill) root.style.setProperty("--center-fill", theme.centerFill);
-  if (theme.dotFill) root.style.setProperty("--dot-fill", theme.dotFill);
-  if (theme.dotActiveFill) root.style.setProperty("--dot-active-fill", theme.dotActiveFill);
-  if (theme.dotActiveAltFill) root.style.setProperty("--dot-active-alt-fill", theme.dotActiveAltFill);
-  if (theme.spinButtonBg) root.style.setProperty("--spin-button-bg", theme.spinButtonBg);
-  if (theme.spinButtonColor) root.style.setProperty("--spin-button-color", theme.spinButtonColor);
+  // helper to pick theme value or default
+  const pick = (key) =>
+    theme[key] !== undefined ? theme[key] : themeDefaults[key];
+
+  // basic CSS vars
+  const border = pick("border");
+  if (border !== undefined) root.style.setProperty("--wheel-border", border);
+
+  const borderWidth = pick("borderWidth");
+  if (borderWidth !== undefined)
+    root.style.setProperty("--wheel-border-width", borderWidth);
+
+  const sliceFill = pick("sliceFill");
+  if (sliceFill !== undefined)
+    root.style.setProperty("--slice-fill", sliceFill);
+
+  const sliceAltFill = pick("sliceAltFill");
+  if (sliceAltFill !== undefined)
+    root.style.setProperty("--slice-alt-fill", sliceAltFill);
+
+  const wheelBg = pick("wheelBg");
+  if (wheelBg !== undefined) root.style.setProperty("--wheel-bg", wheelBg);
+
+  // dots and button
+  const centerFill = pick("centerFill");
+  if (centerFill !== undefined)
+    root.style.setProperty("--center-fill", centerFill);
+
+  const dotFill = pick("dotFill");
+  if (dotFill !== undefined) root.style.setProperty("--dot-fill", dotFill);
+
+  const dotActiveFill = pick("dotActiveFill");
+  if (dotActiveFill !== undefined)
+    root.style.setProperty("--dot-active-fill", dotActiveFill);
+
+  const dotActiveAltFill = pick("dotActiveAltFill");
+  if (dotActiveAltFill !== undefined)
+    root.style.setProperty("--dot-active-alt-fill", dotActiveAltFill);
+
+  const spinButtonBg = pick("spinButtonBg");
+  if (spinButtonBg !== undefined)
+    root.style.setProperty("--spin-button-bg", spinButtonBg);
+
+  const spinButtonColor = pick("spinButtonColor");
+  if (spinButtonColor !== undefined)
+    root.style.setProperty("--spin-button-color", spinButtonColor);
+
+  const winTextStrokeColor = pick("winTextStrokeColor");
+  if (winTextStrokeColor !== undefined)
+    root.style.setProperty("--win-text-stroke-color", winTextStrokeColor);
+
+  // icons (particles)
+  const icons = pick("icons") || [];
+  try {
+    loadParticles(icons);
+  } catch (e) {}
+
+  // update center circle attributes (SVG attrs)
+  try {
+    const center = document.getElementById("wheelCenter");
+    if (center) {
+      const cr = pick("centerRadius");
+      if (cr !== undefined) center.setAttribute("r", cr);
+      const cstroke = pick("centerStroke");
+      if (cstroke !== undefined) center.setAttribute("stroke", cstroke);
+      const cstrokew = pick("centerStrokeWidth");
+      if (cstrokew !== undefined) center.setAttribute("stroke-width", cstrokew);
+    }
+  } catch (e) {}
 }
 
 // helper to (re)load tsParticles with a set of icons (unicode glyphs)
@@ -194,6 +250,40 @@ function loadParticles(icons) {
 }
 
 // Load themes.json and populate visible selector
+/**
+ * loadThemes()
+ *
+ * Embedded themes live inside this function (edit them here).
+ * Supported theme properties and what they affect:
+ *
+ * - name (string): human readable name shown in the selector.
+ * - border (CSS color): color used for the wheel perimeter. Sets --wheel-border.
+ * - borderWidth (CSS length, e.g. '15px'): thickness of the wheel border. Sets --wheel-border-width.
+ * - sliceFill (CSS color): primary slice color. Sets --slice-fill.
+ * - sliceAltFill (CSS color): alternating slice color. Sets --slice-alt-fill.
+ * - wheelBg (CSS color): background color of the wheel SVG (optional) -> sets --wheel-bg.
+ *
+ * - centerFill (CSS color): fill color for the center circle. Sets --center-fill.
+ * - centerRadius (number): radius (r attribute) for the center circle (SVG units, number without 'px').
+ * - centerStroke (CSS color): stroke color for center circle.
+ * - centerStrokeWidth (number/string): stroke-width for center circle (SVG accepts numbers/strings).
+ *
+ * - dotFill (CSS color): color of small dots around the wheel. Sets --dot-fill.
+ * - dotActiveFill (CSS color): color for animated/active dots. Sets --dot-active-fill.
+ * - dotActiveAltFill (CSS color): alternate active-dot color. Sets --dot-active-alt-fill.
+ *
+ * - spinButtonBg (CSS color): background color for the spin button. Sets --spin-button-bg.
+ * - spinButtonColor (CSS color): text color for the spin button. Sets --spin-button-color.
+ *
+ * - winTextStrokeColor (CSS color): stroke color used on #winMessage text (sets --win-text-stroke-color).
+ *
+ * - icons (array): array of glyphs/characters used by the particle background (tsParticles characters).
+ *
+ * Notes:
+ * - Colors should be valid CSS colors (hex, rgb, named).
+ * - CSS variables are used for most values so changes are instant without reloading the SVG.
+ * - centerRadius is an SVG attribute (number) while borderWidth is a CSS length (e.g. '18px').
+ */
 function loadThemes() {
   const embedded = {
     OG: {
@@ -204,21 +294,26 @@ function loadThemes() {
     },
     "After Ski": {
       name: "After Ski",
+      border: "#1C3FD4", 
       sliceFill: "#3F8EFC",
       sliceAltFill: "#87BFFF",
       icons: ["", "", "", "", ""],
     },
     Aperol: {
       name: "Aperol",
+      border: "#FE905D",
       sliceFill: "#fff",
       sliceAltFill: "#fe6f2c",
       icons: ["\uf561", "\uf72f", "\uf0fc", "\uf79f"],
     },
     Shrek: {
-      "name": "Shrek",
-      "sliceFill": "#CBD421",
-      "sliceAltFill": "#93A300",
-    }
+      name: "Shrek",
+      border: "#956F37",
+      centerFill: "#795A2D",
+      sliceFill: "#CBD421",
+      sliceAltFill: "#93A300",
+      icons: ["", "", "", ""],
+    },
   };
 
   // Use embedded themes only (no external fetch) — edit this object in script.js to add themes
@@ -233,31 +328,51 @@ function loadThemes() {
     if (visibleThemeSelector) visibleThemeSelector.appendChild(opt);
   });
 
+  // Capture current computed CSS variable values and SVG center attributes as defaults
+  try {
+    const root = document.documentElement;
+    const cs = getComputedStyle(root);
+    const center = document.getElementById("wheelCenter");
+    themeDefaults = {
+      border: cs.getPropertyValue("--wheel-border").trim() || undefined,
+      borderWidth:
+        cs.getPropertyValue("--wheel-border-width").trim() || undefined,
+      sliceFill: cs.getPropertyValue("--slice-fill").trim() || undefined,
+      sliceAltFill: cs.getPropertyValue("--slice-alt-fill").trim() || undefined,
+      wheelBg: cs.getPropertyValue("--wheel-bg").trim() || undefined,
+      centerFill: cs.getPropertyValue("--center-fill").trim() || undefined,
+      centerRadius: center ? center.getAttribute("r") || undefined : undefined,
+      centerStroke: center
+        ? center.getAttribute("stroke") || undefined
+        : undefined,
+      centerStrokeWidth: center
+        ? center.getAttribute("stroke-width") || undefined
+        : undefined,
+      dotFill: cs.getPropertyValue("--dot-fill").trim() || undefined,
+      dotActiveFill:
+        cs.getPropertyValue("--dot-active-fill").trim() || undefined,
+      dotActiveAltFill:
+        cs.getPropertyValue("--dot-active-alt-fill").trim() || undefined,
+      spinButtonBg: cs.getPropertyValue("--spin-button-bg").trim() || undefined,
+      spinButtonColor:
+        cs.getPropertyValue("--spin-button-color").trim() || undefined,
+      winTextStrokeColor:
+        cs.getPropertyValue("--win-text-stroke-color").trim() || undefined,
+      icons:
+        themes["OG"] && themes["OG"].icons ? themes["OG"].icons.slice() : [],
+    };
+  } catch (e) {
+    console.warn("Could not capture theme defaults", e);
+  }
+
   // apply OG default if available
   const defaultName = "OG";
   const defaultTheme = themes[defaultName] || themes[Object.keys(themes)[0]];
   if (defaultTheme) {
-    applyTheme({
-      border: defaultTheme.border,
-      sliceFill:
-        defaultTheme.sliceFill ||
-        defaultTheme.slice_fill ||
-        defaultTheme.slice ||
-        defaultTheme.sliceFill,
-      sliceAltFill:
-        defaultTheme.sliceAltFill ||
-        defaultTheme.slice_alt_fill ||
-        defaultTheme.sliceAltFill,
-      icons: defaultTheme.icons || defaultTheme.icon || [],
-    });
+    // apply the full default theme object so optional fields (centerFill, borderWidth, etc.) are handled
+    applyTheme(defaultTheme);
     try {
       if (visibleThemeSelector) visibleThemeSelector.value = defaultName;
-    } catch (e) {}
-    try {
-      loadParticles(
-        defaultTheme.icons ||
-          defaultTheme.icon || ["\uf561", "\uf72f", "\uf0fc", "\uf79f"]
-      );
     } catch (e) {}
   }
 
@@ -266,12 +381,7 @@ function loadThemes() {
       const key = e.target.value;
       const selected = themes[key];
       if (selected) {
-        applyTheme({
-          border: selected.border,
-          sliceFill: selected.sliceFill,
-          sliceAltFill: selected.sliceAltFill,
-          icons: selected.icons,
-        });
+        applyTheme(selected);
       }
     });
   }
@@ -626,6 +736,7 @@ container
   .append("circle")
   .attr("cx", 0)
   .attr("cy", 0)
+  .attr("id", "wheelCenter")
   .attr("r", 10)
   .style("fill", "var(--center-fill)");
 

@@ -10,17 +10,28 @@ a:hover {
   text-decoration: none;
 }
 
-body {
+/* Consolidated and cleaned stylesheet */
+@import url('https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900&display=swap');
+
+/* Global reset and viewport-filling layout to avoid scrolling */
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  overflow: hidden; /* prevent page scrolling so the app fills the screen */
   font-family: 'Roboto', sans-serif;
 }
 
 :root {
-  /* theme variables (OG defaults) */
+  /* theme variables (OG defaults) - edit in script.js themes object */
   --wheel-border: #222;
+  --wheel-border-width: 15px;
+  --wheel-bg: #222;
   --slice-fill: #f7eb39;
   --slice-alt-fill: #0f0f0f;
-  /* additional themeable values */
-  --center-fill: #ffffff; /* center circle */
+  --center-fill: #ffffff;
+  --center-stroke: transparent;
+  --center-stroke-width: 0px;
   --dot-fill: #ffffff;
   --dot-active-fill: #ff8400;
   --dot-active-alt-fill: #2660a4;
@@ -29,30 +40,45 @@ body {
   --win-text-stroke-color: black;
 }
 
-#winMessage {
-  height: 100px;
-  position: absolute;
-  text-align: center;
+#spinwheel {
+  position: relative;
   width: 100%;
-  top: 20%;
-  z-index: 99999;
-  color: white;
-  -webkit-text-stroke-width: 1px;
-  -webkit-text-stroke-color: black;
+  height: 100%;
+  max-width: 100vh;
+  max-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-/*------------------  */
 .wheel-spin-box {
   position: relative;
   display: inline-block;
+  width: 80vmin; /* keep wheel square and sized to viewport */
+  height: 80vmin;
+}
+
+#spinwheel svg {
   width: 100%;
-  max-width: 100vh;
+  height: 100%;
+  /* themeable border */
+  border: var(--wheel-border-width) solid var(--wheel-border);
+  border-radius: 50%;
+  background: var(--wheel-bg);
+  box-sizing: border-box;
 }
-#spinwheel {
+
+.chartholder {
   position: relative;
-  width: 80%;
-  margin: auto;
 }
+
+.wheel-spin-box .chartholder .slice path {
+  fill: var(--slice-fill);
+}
+.wheel-spin-box .chartholder .slice:nth-child(2n + 1) path {
+  fill: var(--slice-alt-fill);
+}
+
 .wheeldotsround {
   position: absolute;
   width: 100%;
@@ -66,10 +92,6 @@ body {
   position: absolute;
   z-index: 1;
 }
-.wheeldotsround .wheeldots:nth-child(2n + 1) {
-  background: var(--dot-fill);
-}
-
 .wheeldotsround .wheeldots.active-dots {
   background: var(--dot-active-fill);
 }
@@ -77,84 +99,23 @@ body {
   background: var(--dot-active-alt-fill);
 }
 
-.wheeldotsround .wheeldots:nth-child(1) {
-  left: calc(50% - 4px);
-  top: 3px;
-}
-.wheeldotsround .wheeldots:nth-child(2) {
-  right: 25%;
-  top: 7%;
-}
-.wheeldotsround .wheeldots:nth-child(3) {
-  right: 7%;
-  top: 25%;
-}
-.wheeldotsround .wheeldots:nth-child(4) {
-  right: 3px;
-  top: 50%;
-}
-.wheeldotsround .wheeldots:nth-child(5) {
-  right: 8.2%;
-  bottom: 23%;
-}
-.wheeldotsround .wheeldots:nth-child(6) {
-  right: 25%;
-  bottom: 7%;
-}
+/* positions for the 12 dots around the wheel */
+.wheeldotsround .wheeldots:nth-child(1) { left: calc(50% - 4px); top: 3px; }
+.wheeldotsround .wheeldots:nth-child(2) { right: 25%; top: 7%; }
+.wheeldotsround .wheeldots:nth-child(3) { right: 7%; top: 25%; }
+.wheeldotsround .wheeldots:nth-child(4) { right: 3px; top: 50%; }
+.wheeldotsround .wheeldots:nth-child(5) { right: 8.2%; bottom: 23%; }
+.wheeldotsround .wheeldots:nth-child(6) { right: 25%; bottom: 7%; }
+.wheeldotsround .wheeldots:nth-child(7) { left: calc(50% - 4px); bottom: 3px; }
+.wheeldotsround .wheeldots:nth-child(8) { left: 25%; bottom: 7%; }
+.wheeldotsround .wheeldots:nth-child(9) { left: 8.2%; bottom: 23%; }
+.wheeldotsround .wheeldots:nth-child(10){ left: 3px; top: 50%; }
+.wheeldotsround .wheeldots:nth-child(11){ left: 7%; top: 25%; }
+.wheeldotsround .wheeldots:nth-child(12){ left: 25%; top: 7%; }
 
-.wheeldotsround .wheeldots:nth-child(7) {
-  left: calc(50% - 4px);
-  bottom: 3px;
-}
-.wheeldotsround .wheeldots:nth-child(8) {
-  left: 25%;
-  bottom: 7%;
-}
-.wheeldotsround .wheeldots:nth-child(9) {
-  left: 8.2%;
-  bottom: 23%;
-}
-.wheeldotsround .wheeldots:nth-child(10) {
-  left: 3px;
-  top: 50%;
-}
-.wheeldotsround .wheeldots:nth-child(11) {
-  left: 7%;
-  top: 25%;
-}
-.wheeldotsround .wheeldots:nth-child(12) {
-  left: 25%;
-  top: 7%;
-}
+.wheel-spin-arrow { position: relative; margin-top: -35px; text-align: center; z-index: 1; }
+.wheel-spin-arrow svg { max-width: 65px; }
 
-#spinwheel svg {
-  width: 100%;
-  height: 100%;
-  /* themeable border */
-  border: 15px solid var(--wheel-border);
-  border-radius: 50%;
-  background: #222;
-}
-.chartholder {
-  /* keep layout stable for wheel elements */
-  position: relative;
-}
-
-.wheel-spin-box .chartholder .slice path {
-  fill: var(--slice-fill);
-}
-.wheel-spin-box .chartholder .slice:nth-child(2n + 1) path {
-  fill: var(--slice-alt-fill);
-}
-.wheel-spin-arrow {
-  position: relative;
-  margin-top: -35px;
-  text-align: center;
-  z-index: 1;
-}
-.wheel-spin-arrow svg {
-  max-width: 65px;
-}
 .spin-click-button {
   background-color: var(--spin-button-bg);
   font-size: 14px;
@@ -173,38 +134,8 @@ body {
   z-index: -1;
 }
 
-.winIndicator {
-  fill: #fff;
-}
+.winIndicator { fill: #fff; }
 
-#wheelInput {
-  position: fixed;
-  bottom: 20px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 50%;
-  margin: 0 auto;
-  z-index: 1000;
-}
-@import url('https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900&display=swap');
-
-button:focus,
-input:focus {
-  outline: none;
-  box-shadow: none;
-a,
-a:hover {
-  text-decoration: none;
-}
-body {
-  font-family: 'Roboto', sans-serif;
-}
-:root {
-  /* theme variables (OG defaults) */
-  --wheel-border: #222;
-  --slice-fill: #f7eb39;
-  --slice-alt-fill: #0f0f0f;
-}
 #winMessage {
   height: 100px;
   position: absolute;
@@ -217,136 +148,65 @@ body {
   -webkit-text-stroke-color: black;
 }
 
-/*------------------  */
-.wheel-spin-box {
-  position: relative;
+/* file input / hotspot area */
+#wheelInput {
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: auto;
+  margin: 0 auto;
+  z-index: 1000;
+}
+
+/* Theme selector (placed into the hover hotspot). Hidden until hover on parent. */
+#themeSelectorVisible {
   display: inline-block;
-  width: 100%;
-  max-width: 100vh;
-}
-#spinwheel {
-  position: relative;
-  width: 80%;
-  margin: auto;
-}
-.wheeldotsround {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-.wheeldotsround .wheeldots {
-  width: 10px;
-  height: 10px;
-  border-radius: 50%;
-  background: #fff;
-  position: absolute;
-  z-index: 1;
-}
-.wheeldotsround .wheeldots:nth-child(2n + 1) {
-  background: #fff;
-}
-
-.wheeldotsround .wheeldots.active-dots {
-  background: #ff8400;
-}
-.wheeldotsround .wheeldots.active-dots:nth-child(2n + 1) {
-  background: #2660a4;
-}
-.wheeldotsround .wheeldots:nth-child(1) {
-  left: calc(50% - 4px);
-  top: 3px;
-}
-.wheeldotsround .wheeldots:nth-child(2) {
-  right: 25%;
-  top: 7%;
-}
-.wheeldotsround .wheeldots:nth-child(3) {
-  right: 7%;
-  top: 25%;
-}
-.wheeldotsround .wheeldots:nth-child(4) {
-  right: 3px;
-  top: 50%;
-}
-.wheeldotsround .wheeldots:nth-child(5) {
-  right: 8.2%;
-  bottom: 23%;
-}
-.wheeldotsround .wheeldots:nth-child(6) {
-  right: 25%;
-  bottom: 7%;
-}
-.wheeldotsround .wheeldots:nth-child(7) {
-  left: calc(50% - 4px);
-  bottom: 3px;
-}
-.wheeldotsround .wheeldots:nth-child(8) {
-  left: 25%;
-  bottom: 7%;
-}
-.wheeldotsround .wheeldots:nth-child(9) {
-  left: 8.2%;
-  bottom: 23%;
-}
-.wheeldotsround .wheeldots:nth-child(10) {
-  left: 3px;
-  top: 50%;
-}
-.wheeldotsround .wheeldots:nth-child(11) {
-  left: 7%;
-  top: 25%;
-}
-.wheeldotsround .wheeldots:nth-child(12) {
-  left: 25%;
-  top: 7%;
-}
-
-#spinwheel svg {
-  width: 100%;
-  height: 100%;
-  /* themeable border */
-  border: 15px solid var(--wheel-border);
-  border-radius: 50%;
-  background: #222;
-}
-.chartholder {
-  /* keep layout stable for wheel elements */
-  position: relative;
-}
-
-.wheel-spin-box .chartholder .slice path {
-  fill: var(--slice-fill);
-}
-.wheel-spin-box .chartholder .slice:nth-child(2n + 1) path {
-  fill: var(--slice-alt-fill);
-}
-.wheel-spin-arrow {
-  position: relative;
-  margin-top: -35px;
-  text-align: center;
-  z-index: 1;
-}
-.wheel-spin-arrow svg {
-  max-width: 65px;
-}
-.spin-click-button {
-  background-color: #000;
+  background: rgba(255,255,255,0.9);
+  color: #111;
+  border-radius: 8px;
+  padding: 6px 8px;
   font-size: 14px;
-  font-weight: 600;
-  color: #fff;
-  border: none;
-  padding: 14px 35px;
-  border-radius: 15px;
+  border: 1px solid rgba(0,0,0,0.08);
 }
 
-/* ---- tsparticles container ---- */
-#tsparticles {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  z-index: -1;
+/* hotspot reveal: parent should toggle visibility on :hover */
+.hotspot:hover #themeSelectorVisible,
+.hotspot:focus-within #themeSelectorVisible {
+  visibility: visible;
+  opacity: 1;
 }
 
-.winIndicator {
+/* small responsive tweaks */
+@media (max-width: 600px) {
+  .wheel-spin-box { width: 95vmin; height: 95vmin; }
+  .spin-click-button { padding: 10px 20px; }
+}
+
+/* End of consolidated stylesheet */
+
+body {
+  font-family: 'Roboto', sans-serif;
+  --wheel-border-width: 15px;
+}
+
+:root {
+  /* theme variables (OG defaults) */
+  --wheel-border: #222;
+  --slice-fill: #f7eb39;
+  border: var(--wheel-border-width, 15px) solid var(--wheel-border);
+  /* additional themeable values */
+  --center-fill: #ffffff; /* center circle */
+  --dot-fill: #ffffff;
+  --dot-active-fill: #ff8400;
+  --dot-active-alt-fill: #2660a4;
+  --spin-button-bg: #000000;
+  --spin-button-color: #ffffff;
+  --win-text-stroke-color: black;
+}
+
+#winMessage {
+  height: 100px;
   fill: #fff;
 }
 
