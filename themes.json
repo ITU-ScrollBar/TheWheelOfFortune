@@ -1,0 +1,20 @@
+{
+  "OG": {
+    "name": "OG",
+    "border": "#222",
+    "sliceFill": "#f7eb39",
+    "sliceAltFill": "#0f0f0f",
+    "icons": ["", "", "", ""]
+  },
+  "After Ski": {
+    "name": "After Ski",
+    "border": "#2D1E99",
+    "sliceFill": "#3F8EFC",
+    "sliceAltFill": "#87BFFF",
+    "icons": ["", "", "", "", ""]
+  },
+  "Aperol": {
+    "name": "Aperol",
+    "sliceFill": "#fe6f2c"
+  }
+}
