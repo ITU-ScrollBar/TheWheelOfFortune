@@ -13,10 +13,57 @@ var og = [
   { label: "2x Corona" },
 ];
 
-// Go to loadThemes to change/add themes
+/* ====================
+   CONFIG (easy to edit)
+   - Put things you expect to change often near the top
+   - Themes are defined here so you can edit them without digging
+ ==================== */
 
+// Default wheel data (items). Edit the `og` array at the top of this file if you
+// want different prizes. Keep 12 entries for the wheel to work as expected
+// (file input validation enforces this).
+// NOTE: `og` is declared above — we rely on that original array instance.
+
+// Editable themes object: change colors, center circle, border, and particle icons here.
+// Each key is a theme id. The loader will expose these in the visible selector.
+const THEMES = {
+  OG: {
+    name: "OG",
+    sliceFill: "#f7eb39",
+    sliceAltFill: "#0f0f0f",
+    icons: ["\uf561", "\uf72f", "\uf0fc", "\uf79f"],
+  },
+  "After Ski": {
+    name: "After Ski",
+    border: "#1C3FD4",
+    sliceFill: "#3F8EFC",
+    sliceAltFill: "#87BFFF",
+    icons: ["", "", "", "", ""],
+  },
+  Aperol: {
+    name: "Aperol",
+    border: "#FE905D",
+    sliceFill: "#fff",
+    sliceAltFill: "#fe6f2c",
+    icons: ["\uf561", "\uf72f", "\uf0fc", "\uf79f"],
+  },
+  Shrek: {
+    name: "Shrek",
+    border: "#956F37",
+    centerFill: "#795A2D",
+    sliceFill: "#CBD421",
+    sliceAltFill: "#93A300",
+    icons: ["", "", "", ""],
+  },
+};
+
+// Default theme id to apply on startup
+const DEFAULT_THEME_NAME = "OG";
+
+// DOM references used by theming and file input
 var fileUpdate = document.getElementById("wheelInput");
 var visibleThemeSelector = document.getElementById("themeSelectorVisible");
+
 // will hold computed defaults captured at load time so themes can revert unspecified values
 var themeDefaults = {};
 
@@ -284,49 +331,30 @@ function loadParticles(icons) {
  * - CSS variables are used for most values so changes are instant without reloading the SVG.
  * - centerRadius is an SVG attribute (number) while borderWidth is a CSS length (e.g. '18px').
  */
-function loadThemes() {
-  const embedded = {
-    OG: {
-      name: "OG",
-      sliceFill: "#f7eb39",
-      sliceAltFill: "#0f0f0f",
-      icons: ["\uf561", "\uf72f", "\uf0fc", "\uf79f"],
-    },
-    "After Ski": {
-      name: "After Ski",
-      border: "#1C3FD4", 
-      sliceFill: "#3F8EFC",
-      sliceAltFill: "#87BFFF",
-      icons: ["", "", "", "", ""],
-    },
-    Aperol: {
-      name: "Aperol",
-      border: "#FE905D",
-      sliceFill: "#fff",
-      sliceAltFill: "#fe6f2c",
-      icons: ["\uf561", "\uf72f", "\uf0fc", "\uf79f"],
-    },
-    Shrek: {
-      name: "Shrek",
-      border: "#956F37",
-      centerFill: "#795A2D",
-      sliceFill: "#CBD421",
-      sliceAltFill: "#93A300",
-      icons: ["", "", "", ""],
-    },
-  };
-
-  // Use embedded themes only (no external fetch) — edit this object in script.js to add themes
-  const themes = embedded;
-
-  // clear existing
-  if (visibleThemeSelector) visibleThemeSelector.innerHTML = "";
+/**
+ * registerThemeSelector(themes)
+ * Populate the visible selector DOM with entries from `themes`.
+ */
+function registerThemeSelector(themes) {
+  if (!visibleThemeSelector) return;
+  visibleThemeSelector.innerHTML = "";
   Object.keys(themes).forEach((key) => {
     const opt = document.createElement("option");
     opt.value = key;
     opt.text = themes[key].name || key;
-    if (visibleThemeSelector) visibleThemeSelector.appendChild(opt);
+    visibleThemeSelector.appendChild(opt);
   });
+}
+
+/**
+ * loadThemes()
+ * Use the top-level THEMES object and wire up the visible selector.
+ */
+function loadThemes() {
+  const themes = THEMES;
+
+  // populate selector
+  registerThemeSelector(themes);
 
   // Capture current computed CSS variable values and SVG center attributes as defaults
   try {
@@ -359,20 +387,21 @@ function loadThemes() {
       winTextStrokeColor:
         cs.getPropertyValue("--win-text-stroke-color").trim() || undefined,
       icons:
-        themes["OG"] && themes["OG"].icons ? themes["OG"].icons.slice() : [],
+        themes[DEFAULT_THEME_NAME] && themes[DEFAULT_THEME_NAME].icons
+          ? themes[DEFAULT_THEME_NAME].icons.slice()
+          : [],
     };
   } catch (e) {
     console.warn("Could not capture theme defaults", e);
   }
 
-  // apply OG default if available
-  const defaultName = "OG";
-  const defaultTheme = themes[defaultName] || themes[Object.keys(themes)[0]];
+  // apply configured default theme
+  const defaultTheme =
+    themes[DEFAULT_THEME_NAME] || themes[Object.keys(themes)[0]];
   if (defaultTheme) {
-    // apply the full default theme object so optional fields (centerFill, borderWidth, etc.) are handled
     applyTheme(defaultTheme);
     try {
-      if (visibleThemeSelector) visibleThemeSelector.value = defaultName;
+      if (visibleThemeSelector) visibleThemeSelector.value = DEFAULT_THEME_NAME;
     } catch (e) {}
   }
 
@@ -380,9 +409,7 @@ function loadThemes() {
     visibleThemeSelector.addEventListener("change", function (e) {
       const key = e.target.value;
       const selected = themes[key];
-      if (selected) {
-        applyTheme(selected);
-      }
+      if (selected) applyTheme(selected);
     });
   }
 }
