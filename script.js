@@ -485,7 +485,6 @@ function updateDataInWheel() {
       );
     })
     .attr("font-size", "14")
-    .attr("font-align", "center")
     .attr("fill", function (d, i) {
       return i % 2 == 1 ? "black" : "white";
     })
