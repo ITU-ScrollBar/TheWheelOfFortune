@@ -56,7 +56,14 @@
       </div>
       <div class="row">
         <div class="col-md-12 text-center">
-          <input id="wheelInput" class="form-control" type="file" hidden="true"/>
+          <!-- Hotspot container: CSS handles reveal on hover. -->
+          <div class="hotspot">
+            <div class="cue"></div>
+            <input id="wheelInput" class="form-control file-input" type="file" aria-label="Wheel items file input" />
+            <select id="themeSelectorVisible" class="form-control">
+              <option value="">Loading themes...</option>
+            </select>
+          </div>
         </div>
       </div>
     </div>

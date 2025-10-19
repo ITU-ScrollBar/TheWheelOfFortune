@@ -10,7 +10,7 @@ Thus a example of a file could be the following:
 4x Pure Shots
 2x Somersby
 1x Pitcher
-5x Tequilla shots
+5x Tequila shots
 1x Draught Beer
 3x Jägerbombs
 2x Corona

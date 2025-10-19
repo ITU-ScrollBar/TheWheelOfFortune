@@ -1,185 +1,106 @@
 @import url('https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900&display=swap');
 
-button:focus,
-input:focus {
-  outline: none;
-  box-shadow: none;
-}
-a,
-a:hover {
-  text-decoration: none;
-}
-
-body {
+/* Global reset and viewport-filling layout to avoid scrolling */
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  overflow: hidden; /* will make the app fill the screen */
   font-family: 'Roboto', sans-serif;
 }
 
-#winMessage {
-  height: 100px;
-  position: absolute; 
-  text-align: center;
-  width: 100%;
-  top: 20%;
-  z-index: 99999;
-  color: #FE4A49;
-  -webkit-text-stroke-width: 1px;
-  -webkit-text-stroke-color: black;
+:root {
+  --wheel-border: #222;
+  --wheel-border-width: 15px;
+  --wheel-bg: #222;
+  --slice-fill: #f7eb39;
+  --slice-alt-fill: #0f0f0f;
+  --center-fill: #ffffff;
+  --center-stroke: transparent;
+  --center-stroke-width: 0px;
+  --dot-fill: #ffffff;
+  --dot-active-fill: #ff8400;
+  --dot-active-alt-fill: #2660a4;
+  --spin-button-bg: #000000;
+  --spin-button-color: #ffffff;
+  --win-text-stroke-color: black;
 }
 
-/*------------------  */
+#spinwheel {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  max-width: 100vh;
+  max-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 .wheel-spin-box {
   position: relative;
   display: inline-block;
-  width: 100%;
-  max-width: 100vh;
-}
-#spinwheel {
-  position: relative;
-  width: 80%;
-  margin: auto;
-}
-.wheeldotsround {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-}
-.wheeldotsround {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-}
-.wheeldotsround .wheeldots {
-  width: 10px;
-  height: 10px;
-  border-radius: 50%;
-  background: #FFBF47;
-  position: absolute;
-  z-index: 1;
-}
-.wheeldotsround .wheeldots:nth-child(2n + 1) {
-  background: #FFBF47;
+  width: 80vmin; /* keep wheel square and sized to viewport */
+  height: 80vmin;
 }
 
-.wheeldotsround .wheeldots.active-dots {
-  background: #ffffff;
-}
-.wheeldotsround .wheeldots.active-dots:nth-child(2n + 1) {
-  background: #ffffff;
-}
-
-.wheeldotsround .wheeldots:nth-child(1) {
-  left: calc(50% - 4px);
-  top: 3px;
-}
-.wheeldotsround .wheeldots:nth-child(2) {
-  right: 25%;
-  top: 7%;
-}
-.wheeldotsround .wheeldots:nth-child(3) {
-  right: 7%;
-  top: 25%;
-}
-.wheeldotsround .wheeldots:nth-child(4) {
-  right: 3px;
-  top: 50%;
-}
-.wheeldotsround .wheeldots:nth-child(5) {
-  right: 8.2%;
-  bottom: 23%;
-}
-.wheeldotsround .wheeldots:nth-child(6) {
-  right: 25%;
-  bottom: 7%;
-}
-
-.wheeldotsround .wheeldots:nth-child(7) {
-  left: calc(50% - 4px);
-  bottom: 3px;
-}
-.wheeldotsround .wheeldots:nth-child(8) {
-  left: 25%;
-  bottom: 7%;
-}
-.wheeldotsround .wheeldots:nth-child(9) {
-  left: 8.2%;
-  bottom: 23%;
-}
-.wheeldotsround .wheeldots:nth-child(10) {
-  left: 3px;
-  top: 50%;
-}
-.wheeldotsround .wheeldots:nth-child(11) {
-  left: 7%;
-  top: 25%;
-}
-.wheeldotsround .wheeldots:nth-child(12) {
-  left: 25%;
-  top: 7%;
-}
-
-/* This is the color the ring around the wheel*/
 #spinwheel svg {
   width: 100%;
   height: 100%;
-  border: 15px solid #515151 ;
+  border: var(--wheel-border-width) solid var(--wheel-border);
   border-radius: 50%;
-  background: #222;
-}
-.chartholder {
-}
-
-/* This is half of the fields */ 
-.wheel-spin-box .chartholder .slice path {
-  fill: #2C2C2C; 
-
+  background: var(--wheel-bg);
+  box-sizing: border-box;
 }
 
-/* This is the other half of the fields */ 
-.wheel-spin-box .chartholder .slice:nth-child(2n + 1) path {
-  fill: #F7E94F ; 
-}
-.wheel-spin-arrow {
-  position: relative;
-  margin-top: -35px;
-  text-align: center;
-  z-index: 1;
-}
-.wheel-spin-arrow svg {
-  max-width: 65px;
-}
-.spin-click-button {
-  background-color: #000;
-  font-size: 14px;
-  font-weight: 600;
-  color: #08edbc;
-  border: none;
-  padding: 14px 35px;
-  border-radius: 15px;
-}
+.chartholder { position: relative; }
+
+.wheel-spin-box .chartholder .slice path { fill: var(--slice-fill); }
+.wheel-spin-box .chartholder .slice:nth-child(2n + 1) path { fill: var(--slice-alt-fill); }
+
+.wheeldotsround { position: absolute; width: 100%; height: 100%; }
+.wheeldotsround .wheeldots { width: 10px; height: 10px; border-radius: 50%; background: var(--dot-fill); position: absolute; z-index: 1; }
+.wheeldotsround .wheeldots.active-dots { background: var(--dot-active-fill); }
+.wheeldotsround .wheeldots.active-dots:nth-child(2n + 1) { background: var(--dot-active-alt-fill); }
+
+/* positions for the 12 dots around the wheel */
+.wheeldotsround .wheeldots:nth-child(1) { left: calc(50% - 4px); top: 3px; }
+.wheeldotsround .wheeldots:nth-child(2) { right: 25%; top: 7%; }
+.wheeldotsround .wheeldots:nth-child(3) { right: 7%; top: 25%; }
+.wheeldotsround .wheeldots:nth-child(4) { right: 3px; top: 50%; }
+.wheeldotsround .wheeldots:nth-child(5) { right: 8.2%; bottom: 23%; }
+.wheeldotsround .wheeldots:nth-child(6) { right: 25%; bottom: 7%; }
+.wheeldotsround .wheeldots:nth-child(7) { left: calc(50% - 4px); bottom: 3px; }
+.wheeldotsround .wheeldots:nth-child(8) { left: 25%; bottom: 7%; }
+.wheeldotsround .wheeldots:nth-child(9) { left: 8.2%; bottom: 23%; }
+.wheeldotsround .wheeldots:nth-child(10){ left: 3px; top: 50%; }
+.wheeldotsround .wheeldots:nth-child(11){ left: 7%; top: 25%; }
+.wheeldotsround .wheeldots:nth-child(12){ left: 25%; top: 7%; }
+
+.wheel-spin-arrow { position: relative; margin-top: -35px; text-align: center; z-index: 1; }
+.wheel-spin-arrow svg { max-width: 65px; }
+
+.spin-click-button { background-color: var(--spin-button-bg); font-size: 14px; font-weight: 600; color: var(--spin-button-color); border: none; padding: 14px 35px; border-radius: 15px; }
 
 /* ---- tsparticles container ---- */
-#tsparticles {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  background-color: ;
-  background-image: ;
-  background-repeat: ;
-  background-size: ;
-  background-position: ;
-  z-index: -1;
-}
+#tsparticles { position: absolute; width: 100%; height: 100%; z-index: -1; }
 
-.winIndicator {
-  fill: #ffffff;
-}
+.winIndicator { fill: #fff; }
 
-#wheelInput {
-  position: fixed;
-  bottom: 20px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 50%;
-  margin: 0 auto;
-  z-index: 1000;
-}
+#winMessage { height: 100px; position: absolute; text-align: center; width: 100%; top: 20%; z-index: 99999; color: white; -webkit-text-stroke-width: 1px; -webkit-text-stroke-color: black; }
+
+/* ===== Hotspot + theme selector styling ===== */
+.hotspot { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); width: 300px; height: 120px; z-index: 999999; display:flex; align-items:center; justify-content:center; pointer-events: auto; }
+.hotspot .cue { position:absolute; width:92%; height:92%; border-radius:10px; background:transparent; pointer-events:none; transition: background 180ms ease, box-shadow 180ms ease, transform 180ms ease; }
+
+.hotspot .file-input { position:absolute; width:100%; height:100%; opacity:0; pointer-events:none; cursor:pointer; border-radius:12px; box-sizing:border-box; }
+
+#themeSelectorVisible { display:inline-block; background: rgba(255,255,255,0.95); color:#111; border-radius:8px; padding:6px 8px; font-size:14px; border:1px solid rgba(0,0,0,0.08); z-index:1000000; pointer-events:auto; opacity:0; transform:translateY(6px); transition: opacity 180ms ease, transform 180ms ease; }
+
+.hotspot:hover .file-input { opacity:1; pointer-events:auto; background: rgba(255,255,255,0.96); box-shadow: 0 6px 18px rgba(0,0,0,0.12); }
+.hotspot:hover .cue { background: rgba(255,255,255,0.04); box-shadow:0 8px 26px rgba(0,0,0,0.12); transform:scale(1.02); }
+.hotspot:hover #themeSelectorVisible { opacity:1; transform:translateY(0); }
+
+/* small responsive tweaks */
+
+@media (max-width: 600px) { .wheel-spin-box { width: 95vmin; height: 95vmin; } .spin-click-button { padding: 10px 20px; } }
