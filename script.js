@@ -296,11 +296,13 @@ function loadParticles(icons) {
   });
 }
 
-// Load themes.json and populate visible selector
+// Theme loader and documentation
 /**
  * loadThemes()
  *
- * Embedded themes live inside this function (edit them here).
+ * Themes are defined in the top-level `THEMES` object (edit there). This loader
+ * populates the visible selector and captures defaults so switching themes
+ * reverts unspecified values back to the original appearance.
  * Supported theme properties and what they affect:
  *
  * - name (string): human readable name shown in the selector.
@@ -336,7 +338,9 @@ function loadParticles(icons) {
  * Populate the visible selector DOM with entries from `themes`.
  */
 function registerThemeSelector(themes) {
-  if (!visibleThemeSelector) return;
+  // populate the select element. The element exists in index.html and
+  // is hidden until the hotspot is hovered. We populate it unconditionally
+  // so it contains the full list even when hidden.
   visibleThemeSelector.innerHTML = "";
   Object.keys(themes).forEach((key) => {
     const opt = document.createElement("option");
@@ -562,131 +566,8 @@ $(document).on("keypress", function (e) {
 
 // Remove previous hotspot (if any) and create a centered, easy-to-hit hotspot under the wheel.
 // Hotspot reveals the file input on hover and provides a subtle visual cue.
-(function () {
-  // remove existing hotspot if present
-  var old = document.getElementById("fileHotspot");
-  if (old && old.parentNode) old.parentNode.removeChild(old);
-
-  var hotspot = document.createElement("div");
-  hotspot.id = "fileHotspot";
-  Object.assign(hotspot.style, {
-    position: "fixed",
-    left: "50%", // center horizontally
-    transform: "translateX(-50%)",
-    bottom: "20px", // position under the wheel arrow; adjust if necessary
-    width: "300px", // larger hit area
-    height: "120px",
-    zIndex: "999999",
-    background: "transparent",
-    borderRadius: "12px",
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-    pointerEvents: "auto",
-  });
-
-  if (fileUpdate) {
-    // ensure the input isn't using the HTML hidden attribute
-    try {
-      fileUpdate.removeAttribute && fileUpdate.removeAttribute("hidden");
-    } catch (e) {}
-    fileUpdate.hidden = false;
-
-    // move the input into the hotspot
-    hotspot.appendChild(fileUpdate);
-
-    // move the visible theme selector into the hotspot as well (hidden by default)
-    try {
-      if (visibleThemeSelector && visibleThemeSelector.parentNode) {
-        // remove from existing parent first
-        visibleThemeSelector.parentNode.removeChild(visibleThemeSelector);
-      }
-    } catch (e) {}
-    if (visibleThemeSelector) {
-      // ensure it's visible in DOM but hidden visually until hover
-      visibleThemeSelector.style.position = "absolute";
-      visibleThemeSelector.style.bottom = "8px";
-      visibleThemeSelector.style.left = "8px";
-      visibleThemeSelector.style.zIndex = "1000000";
-      visibleThemeSelector.style.opacity = "0";
-      visibleThemeSelector.style.pointerEvents = "none";
-      visibleThemeSelector.style.transition =
-        "opacity 180ms ease, transform 180ms ease";
-      visibleThemeSelector.style.transform = "translateY(6px)";
-      hotspot.appendChild(visibleThemeSelector);
-    }
-
-    // make the input fill the hotspot but start invisible/uninteractive
-    Object.assign(fileUpdate.style, {
-      position: "absolute",
-      width: "100%",
-      height: "100%",
-      opacity: "0",
-      transition:
-        "opacity 180ms ease, background 180ms ease, box-shadow 180ms ease",
-      cursor: "pointer",
-      pointerEvents: "none",
-      background: "rgba(255,255,255,0.0)", // hidden when not hovered
-      borderRadius: "12px",
-      border: "none",
-      padding: "0",
-      margin: "0",
-      display: "block",
-      boxSizing: "border-box",
-    });
-
-    // subtle cue to show hotspot bounds (hidden until hover)
-    var cue = document.createElement("div");
-    Object.assign(cue.style, {
-      position: "absolute",
-      width: "92%",
-      height: "92%",
-      borderRadius: "10px",
-      background: "transparent",
-      boxShadow: "none",
-      transition:
-        "background 180ms ease, box-shadow 180ms ease, transform 180ms ease",
-      pointerEvents: "none",
-    });
-    hotspot.appendChild(cue);
-
-    hotspot.addEventListener("mouseenter", function () {
-      // reveal the file input and cue so the user can click
-      fileUpdate.style.opacity = "1";
-      fileUpdate.style.pointerEvents = "auto";
-      fileUpdate.style.background = "rgba(255,255,255,0.96)"; // visible input area while hovered
-      fileUpdate.style.boxShadow = "0 6px 18px rgba(0,0,0,0.12)";
-      cue.style.background = "rgba(255,255,255,0.04)";
-      cue.style.boxShadow = "0 8px 26px rgba(0,0,0,0.12)";
-      cue.style.transform = "scale(1.02)";
-      // reveal the theme selector
-      if (visibleThemeSelector) {
-        visibleThemeSelector.style.opacity = "1";
-        visibleThemeSelector.style.pointerEvents = "auto";
-        visibleThemeSelector.style.transform = "translateY(0)";
-      }
-    });
-
-    hotspot.addEventListener("mouseleave", function () {
-      // hide again
-      fileUpdate.style.opacity = "0";
-      fileUpdate.style.pointerEvents = "none";
-      fileUpdate.style.background = "transparent";
-      fileUpdate.style.boxShadow = "none";
-      cue.style.background = "transparent";
-      cue.style.boxShadow = "none";
-      cue.style.transform = "scale(1)";
-      // hide theme selector
-      if (visibleThemeSelector) {
-        visibleThemeSelector.style.opacity = "0";
-        visibleThemeSelector.style.pointerEvents = "none";
-        visibleThemeSelector.style.transform = "translateY(6px)";
-      }
-    });
-  }
-
-  document.body.appendChild(hotspot);
-})();
+// Hotspot and selector are handled in `index.html` and styled via `style.css`.
+// This keeps markup in HTML, presentation in CSS and avoids programmatic DOM creation.
 
 function spin(charge) {
   if (spinning) {
