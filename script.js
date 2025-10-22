@@ -55,6 +55,20 @@ const THEMES = {
     sliceAltFill: "#93A300",
     icons: ["", "", "", ""],
   },
+  XMasCal2025: {
+    name: "XMasCal2025",
+    border: "#123816",
+    borderWidth: "14px",
+    centerFill: "#FFF8E7",
+    centerStroke: "#B57B2A",
+    centerStrokeWidth: "2",
+    sliceFill: "#7BBF3A",
+    sliceAltFill: "#AF261C",
+    dotFill: "#ffffff",
+    dotActiveFill: "#FFD700",
+    dotActiveAltFill: "#FFB347",
+    icons: ["", "", "", ""],
+  },
 };
 
 // Default theme id to apply on startup

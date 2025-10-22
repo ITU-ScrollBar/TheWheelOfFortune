@@ -41,6 +41,7 @@ Supported theme keys (all optional unless noted):
 - `spinButtonBg`, `spinButtonColor` (CSS color) — appearance of the spin button.
 - `winTextStrokeColor` (CSS color) — stroke color used for `#winMessage` text.
 - `icons` (array) — array of glyphs/characters used by the tsParticles background (can be Font Awesome codepoints or other characters).
+  These can be found on e.g. [fontawesome](https://fontawesome.com/) and then copy the glyph itself, meaning copying the unicode characters.
 
 Tips:
 - To add a new theme, add a key-value pair in the `THEMES` object and then reload the page. The selector will include the new theme.
