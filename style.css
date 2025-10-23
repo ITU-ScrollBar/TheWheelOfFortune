@@ -87,7 +87,16 @@ html, body {
 
 .winIndicator { fill: #fff; }
 
-#winMessage { height: 100px; position: absolute; text-align: center; width: 100%; top: 20%; z-index: 99999; color: white; -webkit-text-stroke-width: 1px; -webkit-text-stroke-color: black; }
+#winMessage {
+  height: 100px;
+  position: absolute;
+  text-align: center;
+  width: 100%;
+  top: 20%;
+  z-index: 99999;
+  color: white;
+  -webkit-text-stroke-width: 1px;
+}
 
 /* ===== Hotspot + theme selector styling ===== */
 .hotspot { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); width: 300px; height: 120px; z-index: 999999; display:flex; align-items:center; justify-content:center; pointer-events: auto; }
