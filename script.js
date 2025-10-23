@@ -425,8 +425,12 @@ function loadThemes() {
 
   if (visibleThemeSelector) {
     visibleThemeSelector.addEventListener("change", function (e) {
+      if (spinning) {
+        visibleThemeSelector.value = DEFAULT_THEME_NAME;
+        return;
+      }
       const key = e.target.value;
-      const selected = themes[key];
+      const selected = THEMES[key];
       if (selected) applyTheme(selected);
     });
   }
@@ -618,7 +622,9 @@ function spin(charge) {
         data.length;
       document.getElementById("currentItem").innerHTML = data[curr].label;
     }
-  });
+    // Stop the timer after 14 seconds (before the 15s transition ends)
+    return Date.now() - startTime > 14000;
+  }, (startTime = Date.now()));
 
   var interval = setInterval(function () {
     $(".wheeldots").addClass("active-dots");
