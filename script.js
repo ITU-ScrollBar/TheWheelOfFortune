@@ -33,6 +33,15 @@ const THEMES = {
     sliceAltFill: "#0f0f0f",
     icons: ["\uf561", "\uf72f", "\uf0fc", "\uf79f"],
   },
+  Halloween: {
+    name: "Halloween",
+    border: "#52534E",
+    centerFill: "#BF7516",
+    sliceFill: "#F99420",
+    sliceAltFill: "#2A2A2A",
+    dotFill: "#DB984B",
+    icons: ["🎃", "", ""],
+  },
   XMasCal2025: {
     name: "XMasCal2025",
     border: "#123816",
@@ -46,15 +55,6 @@ const THEMES = {
     dotActiveFill: "#FFD700",
     dotActiveAltFill: "#FFB347",
     icons: ["", "", "", ""],
-  },
-  Halloween: {
-    name: "Halloween",
-    border: "#52534E",
-    centerFill: "#BF7516",
-    sliceFill: "#F99420",
-    sliceAltFill: "#2A2A2A",
-    dotFill: "#DB984B",
-    icons: ["🎃", "", ""],
   },
   "After Ski": {
     name: "After Ski",
@@ -716,3 +716,4 @@ function celebrate() {
     }
   })();
 }
+
