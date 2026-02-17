@@ -13,6 +13,9 @@ var og = [
   { label: "SPIN AGAIN!" },
 ];
 
+var fontPrimary = "black";
+var fontSecondary = "white";
+
 /* ====================
    CONFIG (easy to edit)
    - Put things you expect to change often near the top
@@ -32,6 +35,19 @@ const THEMES = {
     sliceFill: "#f7eb39",
     sliceAltFill: "#0f0f0f",
     icons: ["\uf561", "\uf72f", "\uf0fc", "\uf79f"],
+  },
+  Fastelavn: {
+    name: "Fastelavn",
+    sliceFill: "#d46ba9",
+    centerFill: "#ffa500",
+    border: "#62afe1",
+    sliceAltFill: "#79c261",
+    dotFill: "#ffa500",
+    dotActiveFill: "#ff4d00",
+    dotActiveAltFill: "#ffbf00",
+    fontPrimary: "#fff",
+    fontSecondary: "#fff",
+    icons: ["\uf6fa", "\uf6be", "\uf521", ""],
   },
   Halloween: {
     name: "Halloween",
@@ -150,6 +166,19 @@ function applyTheme(theme) {
   try {
     loadParticles(icons);
   } catch (e) {}
+
+  // update slice text colors from theme (keep JS globals used by D3)
+  const fp = pick("fontPrimary");
+  if (fp !== undefined) fontPrimary = fp;
+  const fs = pick("fontSecondary");
+  if (fs !== undefined) fontSecondary = fs;
+
+  // if wheel already rendered, re-draw slice text so new colors take effect
+  if (typeof updateDataInWheel === "function" && typeof vis !== "undefined" && vis) {
+    try {
+      updateDataInWheel();
+    } catch (e) {}
+  }
 
   // update center circle attributes (SVG attrs)
   try {
@@ -513,7 +542,7 @@ function updateDataInWheel() {
     })
     .attr("font-size", "14")
     .attr("fill", function (d, i) {
-      return i % 2 == 1 ? "black" : "white";
+      return i % 2 == 1 ? fontPrimary : fontSecondary;
     })
     .attr("text-anchor", "end")
     .text(function (d, i) {
