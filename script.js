@@ -35,6 +35,8 @@ const THEMES = {
     sliceFill: "#f7eb39",
     sliceAltFill: "#0f0f0f",
     icons: ["\uf561", "\uf72f", "\uf0fc", "\uf79f"],
+    fontPrimary: "#000",
+    fontSecondary: "#fff",
   },
   Fastelavn: {
     name: "Fastelavn",
@@ -56,6 +58,8 @@ const THEMES = {
     sliceFill: "#F99420",
     sliceAltFill: "#2A2A2A",
     dotFill: "#DB984B",
+    fontPrimary: "#000",
+    fontSecondary: "#fff",
     icons: ["🎃", "", ""],
   },
   XMasCal2025: {
@@ -70,6 +74,8 @@ const THEMES = {
     dotFill: "#ffffff",
     dotActiveFill: "#FFD700",
     dotActiveAltFill: "#FFB347",
+    fontPrimary: "#000",
+    fontSecondary: "#fff",
     icons: ["", "", "", ""],
   },
   "After Ski": {
@@ -77,6 +83,8 @@ const THEMES = {
     border: "#1C3FD4",
     sliceFill: "#3F8EFC",
     sliceAltFill: "#87BFFF",
+    fontPrimary: "#000",
+    fontSecondary: "#fff",
     icons: ["", "", "", "", ""],
   },
   Aperol: {
@@ -84,6 +92,8 @@ const THEMES = {
     border: "#FE905D",
     sliceFill: "#fff",
     sliceAltFill: "#fe6f2c",
+    fontPrimary: "#000",
+    fontSecondary: "#fff",
     icons: ["\uf561", "\uf72f", "\uf0fc", "\uf79f"],
   },
   Shrek: {
@@ -92,6 +102,8 @@ const THEMES = {
     centerFill: "#795A2D",
     sliceFill: "#CBD421",
     sliceAltFill: "#93A300",
+    fontPrimary: "#000",
+    fontSecondary: "#fff",
     icons: ["", "", "", ""],
   },
 };
