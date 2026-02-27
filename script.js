@@ -106,6 +106,16 @@ const THEMES = {
     fontSecondary: "#fff",
     icons: ["", "", "", ""],
   },
+  Chess: {
+    name: "Chess",
+    border: "#000000",
+    centerFill: "#000000",
+    sliceFill: "#ffffff",
+    sliceAltFill: "#000000",
+    fontPrimary: "#000",
+    fontSecondary: "#fff",
+    icons: ["", "", "", ""],
+  },
 };
 
 // Default theme id to apply on startup

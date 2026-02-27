@@ -19,8 +19,8 @@ html, body {
   --center-stroke: transparent;
   --center-stroke-width: 0px;
   --dot-fill: #ffffff;
-  --dot-active-fill: #ff8400;
-  --dot-active-alt-fill: #2660a4;
+  --dot-active-fill: #FF3333;
+  --dot-active-alt-fill: #FF3333;
   --spin-button-bg: #000000;
   --spin-button-color: #ffffff;
   --win-text-stroke-color: black;
