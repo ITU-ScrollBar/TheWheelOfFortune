@@ -634,6 +634,7 @@ arcs
 var spinning = false;
 
 $("#spin").on("click", () => spin(5));
+$("#spinwheel").css("cursor", "pointer").on("click", () => spin(2));
 
 $(document).on("keypress", function (e) {
   if (e.which == 13) {
