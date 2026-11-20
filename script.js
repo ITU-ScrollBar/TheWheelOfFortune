@@ -140,7 +140,8 @@ const THEMES = {
     ].map((label) => ({ label })),
     fontPrimary: "#000",
     fontSecondary: "#fff",
-    icons: ["", "", "", ""],
+    // gun, money bag, dress (free Font Awesome has no high heel), car
+    icons: ["\ue19b", "\uf81d", "\uf182", "\uf1b9"],
   },
 };
 
