@@ -116,6 +116,16 @@ const THEMES = {
     fontSecondary: "#fff",
     icons: ["", "", "", ""],
   },
+  GTA: {
+    name: "GTA",
+    border: "#000000",
+    centerFill: "#57A64A",
+    sliceFill: "#57A64A",
+    sliceAltFill: "#111111",
+    fontPrimary: "#000",
+    fontSecondary: "#fff",
+    icons: ["", "", "", ""],
+  },
 };
 
 // Default theme id to apply on startup
