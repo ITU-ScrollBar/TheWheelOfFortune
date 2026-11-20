@@ -123,6 +123,21 @@ const THEMES = {
     sliceFill: "#FF8A3D",
     sliceAltFill: "#E8418E",
     dotFill: "#FFC15E",
+    // same 12 lines as sample_options/GTA.txt
+    items: [
+      "1x Fireball Shot",
+      "2x Fernet Shots",
+      "1x Råstof Shot",
+      "0x Shots:(",
+      "1x Pure Shot",
+      "2x Vodka Shots",
+      "1x Bomb",
+      "0x Shots:(",
+      "1x Minttu Shot",
+      "2x Jagermeister Shot",
+      "1x Tequila Shot",
+      "0x Shots:(",
+    ].map((label) => ({ label })),
     fontPrimary: "#000",
     fontSecondary: "#fff",
     icons: ["", "", "", ""],
@@ -502,7 +517,14 @@ function loadThemes() {
       }
       const key = e.target.value;
       const selected = THEMES[key];
-      if (selected) applyTheme(selected);
+      if (!selected) return;
+      applyTheme(selected);
+      // themes with their own `items` swap the wheel text; leaving one restores the default list
+      const onThemeItems = Object.values(THEMES).some((t) => t.items === data);
+      if (selected.items || onThemeItems) {
+        data = selected.items || og;
+        updateDataInWheel();
+      }
     });
   }
 }
